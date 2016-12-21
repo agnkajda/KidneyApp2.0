@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.agnieszka.kidneyapp20.KidneyAdapter;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
@@ -55,10 +56,11 @@ public class JournalFragment extends Fragment {
 
         // Sort order:  Ascending, by date.
         String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
-        //Uri valuesForLocationUri = KidneyContract.ValuesEntry.buildValuesWithDate(System.currentTimeMillis());
-        Uri valuesForLocationUri = KidneyContract.ValuesEntry.buildValuesUri(0);
+        Uri valuesForToday = KidneyContract.ValuesEntry.buildValuesWithStartDate(System.currentTimeMillis());
+        //Uri valuesForLocationUri = KidneyContract.ValuesEntry.buildValuesUri(0);
+        Toast.makeText(getActivity().getApplicationContext(), "co zostalo inserted: " + valuesForToday + System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
 
-        Cursor cur = getActivity().getContentResolver().query(valuesForLocationUri,
+        Cursor cur = getActivity().getContentResolver().query(valuesForToday,
                 null, null, null, sortOrder);
 
         // The CursorAdapter will take data from our cursor and populate the ListView
