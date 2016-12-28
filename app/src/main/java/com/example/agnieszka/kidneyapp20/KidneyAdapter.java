@@ -25,10 +25,18 @@ public class KidneyAdapter extends CursorAdapter {
         // get row indices for our cursor
         int idx_date = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_DATE);
         int idx_kcal = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_KCAL);
+        int idx_carbon = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_CARBON);
+        int idx_fat = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_FAT);
+        int idx_protein = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_PROTEIN);
+        int idx_phosphorus = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_PHOSPHORUS);
 
 
-        return Utility.formatDate(cursor.getLong(idx_date)) +
-                " - " + cursor.getString(idx_kcal);
+        return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
+                "\nKcal: " + cursor.getString(idx_kcal) +
+                "\nCarbon: " + cursor.getDouble(idx_carbon) +
+                "\nFat: " + cursor.getDouble(idx_fat) +
+                "\nProtein: " + cursor.getDouble(idx_protein) +
+                "\nPhosphorus: " + cursor.getDouble(idx_phosphorus);
     }
 
     /*

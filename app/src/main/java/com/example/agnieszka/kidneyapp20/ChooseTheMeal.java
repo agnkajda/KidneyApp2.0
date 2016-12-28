@@ -155,7 +155,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                 public void onClick(View view) {
                     context = getActivity().getApplicationContext();
                     //Intent intent = new Intent (context, MainActivity.class);
-                    Intent intent = new Intent (context, TestBazy.class);
+                    Intent intent = new Intent (context, MainActivity.class);
                     startActivity(intent);
                 }
 

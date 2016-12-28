@@ -24,7 +24,7 @@ public class TestBazy extends ActionBarActivity {
         setContentView(R.layout.activity_activitytocheck);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment, new JournalFragment())
+                    .add(R.id.container, new JournalFragment())
                     .commit();
         }
     }
