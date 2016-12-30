@@ -29,6 +29,9 @@ public class KidneyAdapter extends CursorAdapter {
         int idx_fat = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_FAT);
         int idx_protein = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_PROTEIN);
         int idx_phosphorus = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_PHOSPHORUS);
+        int idx_sodium = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_SODIUM);
+        int idx_potassium = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_POTASSIUM);
+        int idx_fluid = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_FLUID);
 
 
         return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
@@ -36,7 +39,10 @@ public class KidneyAdapter extends CursorAdapter {
                 "\nCarbon: " + cursor.getDouble(idx_carbon) +
                 "\nFat: " + cursor.getDouble(idx_fat) +
                 "\nProtein: " + cursor.getDouble(idx_protein) +
-                "\nPhosphorus: " + cursor.getDouble(idx_phosphorus);
+                "\nPhosphorus: " + cursor.getDouble(idx_phosphorus) +
+                "\nSodium: " + cursor.getDouble(idx_sodium) +
+                "\nPotassium: " + cursor.getDouble(idx_potassium) +
+                "\nFluid: " + cursor.getDouble(idx_fluid);
     }
 
     /*

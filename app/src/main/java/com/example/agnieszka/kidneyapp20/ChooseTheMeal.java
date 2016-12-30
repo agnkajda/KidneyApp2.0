@@ -48,6 +48,8 @@ public class ChooseTheMeal extends AppCompatActivity {
 
     static Button addToJournal;
     static Context context;
+    static String foodJsonStr;
+    static int maxPositions;
 
 
     @Override
@@ -154,7 +156,123 @@ public class ChooseTheMeal extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     context = getActivity().getApplicationContext();
-                    //Intent intent = new Intent (context, MainActivity.class);
+
+
+                    final String NDB_REPORT = "report";
+                    final String NDB_FOOD = "food";
+                    final String NDB_NUTRIENTS = "nutrients";
+                    final String NDB_VALUE = "value";
+                    final String NDB_NAME = "name";
+                    final String NDB_ID = "nutrient_id";
+
+                    final int water = 255;
+                    final int energy = 208;
+                    final int carbohydrate = 205;
+                    final int protein = 203;
+                    final int fat = 204;
+                    final int phosphorus = 305;
+                    final int potassium = 306;
+                    final int sodium = 307;
+
+                    try {
+
+                        JSONObject foodJson = new JSONObject(foodJsonStr);
+                        JSONObject report = foodJson.getJSONObject(NDB_REPORT);
+                        JSONObject food = report.getJSONObject(NDB_FOOD);
+                        JSONArray nutrientsArray = food.getJSONArray(NDB_NUTRIENTS);
+
+                        Vector<ContentValues> cVVector = new Vector<ContentValues>(nutrientsArray.length());
+
+                        Time dayTime = new Time();
+                        dayTime.setToNow();
+
+                        // we start at the day returned by local time. Otherwise this is a mess.
+                        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+
+                        // now we work exclusively in UTC
+                        dayTime = new Time();
+
+                        maxPositions = nutrientsArray.length();
+                        String[] resultStrs = new String[maxPositions];
+
+                        ContentValues kidneyValues = new ContentValues();
+
+                        long dateTime;
+
+                        // Cheating to convert this to UTC time, which is what we want anyhow
+                        dateTime = dayTime.setJulianDay(julianStartDay);
+
+                        kidneyValues.put(ValuesEntry.COLUMN_DATE, dateTime);
+
+                        for (int i = 0; i < nutrientsArray.length(); i++) {
+
+                            String type;
+                            double value;
+                            int nutrientId;
+
+                            JSONObject foodValues = nutrientsArray.getJSONObject(i);
+                            type = foodValues.getString(NDB_NAME);
+                            value = foodValues.getDouble(NDB_VALUE);
+                            nutrientId = foodValues.getInt(NDB_ID);
+
+                            switch (nutrientId) {
+                                case water:
+                                    kidneyValues.put(ValuesEntry.COLUMN_FLUID, value);
+                                    break;
+
+                                case energy:
+                                    kidneyValues.put(ValuesEntry.COLUMN_KCAL, value);
+                                    break;
+
+                                case carbohydrate:
+                                    kidneyValues.put(ValuesEntry.COLUMN_CARBON, value);
+                                    break;
+
+                                case fat:
+                                    kidneyValues.put(ValuesEntry.COLUMN_FAT, value);
+                                    break;
+
+                                case protein:
+                                    kidneyValues.put(ValuesEntry.COLUMN_PROTEIN, value);
+                                    break;
+
+                                case phosphorus:
+                                    kidneyValues.put(ValuesEntry.COLUMN_PHOSPHORUS, value);
+                                    break;
+
+                                case sodium:
+                                    kidneyValues.put(ValuesEntry.COLUMN_SODIUM, value);
+                                    break;
+
+                                case potassium:
+                                    kidneyValues.put(ValuesEntry.COLUMN_POTASSIUM, value);
+                                    break;
+
+                            }
+                        }
+
+                            cVVector.add(kidneyValues);
+
+                            Context mContext;
+
+                            mContext = getActivity().getApplicationContext();
+
+                            Uri inserted = KidneyContract.ValuesEntry.CONTENT_URI;
+                            inserted = mContext.getContentResolver().insert(KidneyContract.ValuesEntry.CONTENT_URI, kidneyValues);
+
+
+                            String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
+                            Uri weatherForLocationUri = KidneyContract.ValuesEntry.buildValuesWithStartDate(
+                                    System.currentTimeMillis());
+                        
+                    }
+                    catch (JSONException e) {
+                        Log.e("LOG_TAG", e.getMessage(), e);
+                        e.printStackTrace();
+                    }
+
+
+
                     Intent intent = new Intent (context, MainActivity.class);
                     startActivity(intent);
                 }
@@ -236,14 +354,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                 final String NDB_NAME = "name";
                 final String NDB_ID = "nutrient_id";
 
-                final int water = 255;
-                final int energy = 208;
-                final int carbohydrate = 205;
-                final int protein = 203;
-                final int fat = 204;
-                final int phosphorus = 305;
-                final int potassium = 306;
-                final int sodium = 307;
 
                 try{
 
@@ -266,14 +376,11 @@ public class ChooseTheMeal extends AppCompatActivity {
                 maxPositions = nutrientsArray.length();
                 String[] resultStrs = new String[maxPositions];
 
-                ContentValues kidneyValues = new ContentValues();
-
                 long dateTime;
 
                 // Cheating to convert this to UTC time, which is what we want anyhow
                 dateTime = dayTime.setJulianDay(julianStartDay);
 
-                kidneyValues.put(ValuesEntry.COLUMN_DATE, dateTime);
 
                 for (int i = 0; i < nutrientsArray.length(); i++) {
 
@@ -286,73 +393,10 @@ public class ChooseTheMeal extends AppCompatActivity {
                     value = foodValues.getDouble(NDB_VALUE);
                     nutrientId = foodValues.getInt(NDB_ID);
 
-                    switch(nutrientId){
-                        case water:
-                            kidneyValues.put(ValuesEntry.COLUMN_FLUID, value);
-                            break;
 
-                        case energy:
-                            kidneyValues.put(ValuesEntry.COLUMN_KCAL, value);
-                            break;
-
-                        case carbohydrate:
-                            kidneyValues.put(ValuesEntry.COLUMN_CARBON, value);
-                            break;
-
-                        case fat:
-                            kidneyValues.put(ValuesEntry.COLUMN_FAT, value);
-                            break;
-
-                        case protein:
-                            kidneyValues.put(ValuesEntry.COLUMN_PROTEIN, value);
-                            break;
-
-                        case phosphorus:
-                            kidneyValues.put(ValuesEntry.COLUMN_PHOSPHORUS, value);
-                            break;
-
-                        case sodium:
-                            kidneyValues.put(ValuesEntry.COLUMN_SODIUM, value);
-                            break;
-
-                        case potassium:
-                            kidneyValues.put(ValuesEntry.COLUMN_POTASSIUM, value);
-                            break;
-
-                    }
                     resultStrs[i] = value + "(" + nutrientId + ") " + " - " + type;
                 }
 
-                cVVector.add(kidneyValues);
-
-                   Context mContext;
-
-                    mContext = getActivity().getApplicationContext();
-
-                    Uri inserted = KidneyContract.ValuesEntry.CONTENT_URI;
-                    inserted = mContext.getContentResolver().insert(KidneyContract.ValuesEntry.CONTENT_URI, kidneyValues);
-
-                    Log.d(LOG_TAG, "wrzucamy do bazy: " + inserted + " Inserted kindeyValues: " + kidneyValues);
-/*
-                    int returnCount = 0;
-                    try {
-                        for (ContentValues value : kidneyValues) {
-                            normalizeDateForJournal(value);
-                            long _id = db.insert(KidneyContract.JournalEntry.TABLE_NAME, null, value);
-                            if (_id != -1) {f
-                                returnCount++;
-                            }
-                        }
-*/
-                // Sort order:  Ascending, by date.
-                String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
-                Uri weatherForLocationUri = KidneyContract.ValuesEntry.buildValuesWithStartDate(
-                        System.currentTimeMillis());
-// tu sie chyba nic nie dodaje?!
-                Log.d(LOG_TAG, "FetchValuesTask Complete. " + cVVector.size() + " Inserted " + kidneyValues);
-                    String[] stringWithDate = convertContentValuesToUXFormat(cVVector);
-                    Log.d(LOG_TAG, stringWithDate[0]);
-                //resultStrs = convertContentValuesToUXFormat(cVVector); // <- to zwraca datę!!!
 
                 return resultStrs;
 
@@ -377,11 +421,11 @@ public class ChooseTheMeal extends AppCompatActivity {
                 BufferedReader reader = null;
 
                 // Will contain the raw JSON response as a string.
-                String foodJsonStr = null;
+                foodJsonStr = null;
 
                 String format = "json";
                 String type = "b";
-                int maxPositions = 7;
+                maxPositions = 7;
 
                 try {
                     // Construct the URL for the OpenWeatherMap query
