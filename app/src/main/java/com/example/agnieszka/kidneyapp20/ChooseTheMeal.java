@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,10 +53,12 @@ public class ChooseTheMeal extends AppCompatActivity {
     static int maxPositions;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_the_meal);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new ChooseTheMealFragment())
@@ -89,6 +92,7 @@ public class ChooseTheMeal extends AppCompatActivity {
     public static class ChooseTheMealFragment extends Fragment {
 
         private ArrayAdapter<String> mFood;
+        static EditText typeAmount;
 
         public ChooseTheMealFragment() {
         }
@@ -96,6 +100,7 @@ public class ChooseTheMeal extends AppCompatActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
             // Add this line in order for this fragment to handle menu events.
             setHasOptionsMenu(true);
         }
@@ -110,6 +115,7 @@ public class ChooseTheMeal extends AppCompatActivity {
             // Handle action bar item clicks here. The action bar will
             // automatically handle clicks on the Home/Up button, so long
             // as you specify a parent activity in AndroidManifest.xml.
+
             int id = item.getItemId();
             if (id == R.id.action_refresh) {
                 String numberNDBO;
@@ -148,6 +154,8 @@ public class ChooseTheMeal extends AppCompatActivity {
 
             View rootView = inflater.inflate(R.layout.activity_choose_the_meal_fragment, container, false);
 
+            typeAmount = (EditText) rootView.findViewById(R.id.type_amount);
+
             ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast_3);
             listView.setAdapter(mFood);
 
@@ -156,7 +164,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     context = getActivity().getApplicationContext();
-
 
                     final String NDB_REPORT = "report";
                     final String NDB_FOOD = "food";
@@ -173,6 +180,9 @@ public class ChooseTheMeal extends AppCompatActivity {
                     final int phosphorus = 305;
                     final int potassium = 306;
                     final int sodium = 307;
+
+                    String amountStr = typeAmount.getText().toString();
+                    double amount = Double.parseDouble(amountStr);
 
                     try {
 
@@ -214,6 +224,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                             type = foodValues.getString(NDB_NAME);
                             value = foodValues.getDouble(NDB_VALUE);
                             nutrientId = foodValues.getInt(NDB_ID);
+                            value = value * amount * 0.01;
 
                             switch (nutrientId) {
                                 case water:
@@ -264,14 +275,12 @@ public class ChooseTheMeal extends AppCompatActivity {
                             String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
                             Uri weatherForLocationUri = KidneyContract.ValuesEntry.buildValuesWithStartDate(
                                     System.currentTimeMillis());
-                        
+
                     }
                     catch (JSONException e) {
                         Log.e("LOG_TAG", e.getMessage(), e);
                         e.printStackTrace();
                     }
-
-
 
                     Intent intent = new Intent (context, MainActivity.class);
                     startActivity(intent);
@@ -287,7 +296,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                 ((TextView) rootView.findViewById(R.id.values_text))
                         .setText(foodStr);
             }
-
             return rootView;
         }
 
@@ -354,7 +362,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                 final String NDB_NAME = "name";
                 final String NDB_ID = "nutrient_id";
 
-
                 try{
 
                 JSONObject foodJson = new JSONObject(foodJsonStr);
@@ -381,7 +388,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                 // Cheating to convert this to UTC time, which is what we want anyhow
                 dateTime = dayTime.setJulianDay(julianStartDay);
 
-
                 for (int i = 0; i < nutrientsArray.length(); i++) {
 
                     String type;
@@ -393,11 +399,8 @@ public class ChooseTheMeal extends AppCompatActivity {
                     value = foodValues.getDouble(NDB_VALUE);
                     nutrientId = foodValues.getInt(NDB_ID);
 
-
                     resultStrs[i] = value + "(" + nutrientId + ") " + " - " + type;
                 }
-
-
                 return resultStrs;
 
                 } catch (JSONException e) {

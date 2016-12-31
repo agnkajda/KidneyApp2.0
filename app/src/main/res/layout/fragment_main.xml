@@ -8,7 +8,7 @@
 
 
     <Button
-        android:text="Button"
+        android:text="Add the meal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_food_button"
