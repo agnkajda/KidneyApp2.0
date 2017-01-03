@@ -45,6 +45,8 @@ import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
 import com.example.agnieszka.kidneyapp20.data.KidneyDbHelper;
 
+import static com.example.agnieszka.kidneyapp20.Utility.round;
+
 public class ChooseTheMeal extends AppCompatActivity {
 
     static Button addToJournal;
@@ -225,6 +227,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                             value = foodValues.getDouble(NDB_VALUE);
                             nutrientId = foodValues.getInt(NDB_ID);
                             value = value * amount * 0.01;
+                            value = round(value, 2);
 
                             switch (nutrientId) {
                                 case water:

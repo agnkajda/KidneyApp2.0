@@ -24,6 +24,15 @@ public class Utility {
                 context.getString(R.string.pref_location_default));
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     public static boolean isMetric(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_units_key),
