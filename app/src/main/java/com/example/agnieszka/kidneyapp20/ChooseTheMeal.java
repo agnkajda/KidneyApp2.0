@@ -46,6 +46,7 @@ import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
 import com.example.agnieszka.kidneyapp20.data.KidneyDbHelper;
 
 import static com.example.agnieszka.kidneyapp20.Utility.round;
+import static com.example.agnieszka.kidneyapp20.data.KidneyContract.normalizeDate;
 
 public class ChooseTheMeal extends AppCompatActivity {
 
@@ -402,7 +403,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                     value = foodValues.getDouble(NDB_VALUE);
                     nutrientId = foodValues.getInt(NDB_ID);
 
-                    resultStrs[i] = value + "(" + nutrientId + ") " + " - " + type;
+                    resultStrs[i] = value + " - " + type;
                 }
                 return resultStrs;
 

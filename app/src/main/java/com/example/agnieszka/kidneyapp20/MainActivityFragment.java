@@ -49,7 +49,7 @@ public class MainActivityFragment extends Fragment {
         String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
         Uri valuesForToday = KidneyContract.ValuesEntry.buildValuesWithStartDate(System.currentTimeMillis());
         //Uri valuesForLocationUri = KidneyContract.ValuesEntry.buildValuesUri(0);
-        Toast.makeText(getActivity().getApplicationContext(), "co zostalo inserted: " + valuesForToday + System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), "co zostalo inserted: " + valuesForToday, Toast.LENGTH_SHORT).show();
 
         Cursor cur = getActivity().getContentResolver().query(valuesForToday,
                 null, null, null, sortOrder);

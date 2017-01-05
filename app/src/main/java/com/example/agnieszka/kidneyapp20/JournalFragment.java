@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.example.agnieszka.kidneyapp20.KidneyAdapter;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 
+import static com.example.agnieszka.kidneyapp20.data.KidneyContract.normalizeDate;
+
 
 public class JournalFragment extends Fragment {
 
@@ -58,7 +60,7 @@ public class JournalFragment extends Fragment {
         String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
         Uri valuesForToday = KidneyContract.ValuesEntry.buildValuesWithStartDate(System.currentTimeMillis());
         //Uri valuesForLocationUri = KidneyContract.ValuesEntry.buildValuesUri(0);
-        Toast.makeText(getActivity().getApplicationContext(), "co zostalo inserted: " + valuesForToday + System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), "co zostalo inserted: " + valuesForToday + " lolo ", Toast.LENGTH_SHORT).show();
 
         Cursor cur = getActivity().getContentResolver().query(valuesForToday,
                 null, null, null, sortOrder);
