@@ -1,7 +1,6 @@
 package com.example.agnieszka.kidneyapp20;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,7 +42,7 @@ import java.util.Vector;
 
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
-import com.example.agnieszka.kidneyapp20.data.KidneyDbHelper;
+import com.example.agnieszka.kidneyapp20.data.KidneyContract.JournalEntry;
 
 import static com.example.agnieszka.kidneyapp20.Utility.round;
 import static com.example.agnieszka.kidneyapp20.data.KidneyContract.normalizeDate;
@@ -103,7 +102,6 @@ public class ChooseTheMeal extends AppCompatActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             // Add this line in order for this fragment to handle menu events.
             setHasOptionsMenu(true);
         }
@@ -195,6 +193,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                         JSONArray nutrientsArray = food.getJSONArray(NDB_NUTRIENTS);
 
                         Vector<ContentValues> cVVector = new Vector<ContentValues>(nutrientsArray.length());
+                        Vector<ContentValues> cVVectorJournal = new Vector<ContentValues>(nutrientsArray.length());
 
                         Time dayTime = new Time();
                         dayTime.setToNow();
@@ -209,6 +208,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                         String[] resultStrs = new String[maxPositions];
 
                         ContentValues kidneyValues = new ContentValues();
+                        ContentValues journalValues = new ContentValues();
 
                         long dateTime;
 
@@ -216,6 +216,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                         dateTime = dayTime.setJulianDay(julianStartDay);
 
                         kidneyValues.put(ValuesEntry.COLUMN_DATE, dateTime);
+                        journalValues.put(JournalEntry.COLUMN_DATE, dateTime);
 
                         for (int i = 0; i < nutrientsArray.length(); i++) {
 
@@ -230,43 +231,54 @@ public class ChooseTheMeal extends AppCompatActivity {
                             value = value * amount * 0.01;
                             value = round(value, 2);
 
+                            journalValues.put(JournalEntry.COLUMN_FOOD_NAME, type);
+                            journalValues.put(JournalEntry.COLUMN_AMOUNT, amount);
+
                             switch (nutrientId) {
                                 case water:
                                     kidneyValues.put(ValuesEntry.COLUMN_FLUID, value);
+                                    journalValues.put(JournalEntry.COLUMN_FLUID, value);
                                     break;
 
                                 case energy:
                                     kidneyValues.put(ValuesEntry.COLUMN_KCAL, value);
+                                    journalValues.put(JournalEntry.COLUMN_KCAL, value);
                                     break;
 
                                 case carbohydrate:
                                     kidneyValues.put(ValuesEntry.COLUMN_CARBON, value);
+                                    journalValues.put(JournalEntry.COLUMN_CARBON, value);
                                     break;
 
                                 case fat:
                                     kidneyValues.put(ValuesEntry.COLUMN_FAT, value);
+                                    journalValues.put(JournalEntry.COLUMN_FAT, value);
                                     break;
 
                                 case protein:
                                     kidneyValues.put(ValuesEntry.COLUMN_PROTEIN, value);
+                                    journalValues.put(JournalEntry.COLUMN_PROTEIN, value);
                                     break;
 
                                 case phosphorus:
                                     kidneyValues.put(ValuesEntry.COLUMN_PHOSPHORUS, value);
+                                    journalValues.put(JournalEntry.COLUMN_PHOSPHORUS, value);
                                     break;
 
                                 case sodium:
                                     kidneyValues.put(ValuesEntry.COLUMN_SODIUM, value);
+                                    journalValues.put(JournalEntry.COLUMN_SODIUM, value);
                                     break;
 
                                 case potassium:
                                     kidneyValues.put(ValuesEntry.COLUMN_POTASSIUM, value);
+                                    journalValues.put(JournalEntry.COLUMN_POTASSIUM, value);
                                     break;
-
                             }
                         }
 
                             cVVector.add(kidneyValues);
+                            cVVectorJournal.add(journalValues);
 
                             Context mContext;
 
@@ -275,10 +287,17 @@ public class ChooseTheMeal extends AppCompatActivity {
                             Uri inserted = KidneyContract.ValuesEntry.CONTENT_URI;
                             inserted = mContext.getContentResolver().insert(KidneyContract.ValuesEntry.CONTENT_URI, kidneyValues);
 
+                            Uri insertedToJournal = KidneyContract.JournalEntry.CONTENT_URI;
+                            insertedToJournal = mContext.getContentResolver().
+                                    insert(KidneyContract.JournalEntry.CONTENT_URI, journalValues);
 
                             String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
                             Uri weatherForLocationUri = KidneyContract.ValuesEntry.buildValuesWithStartDate(
                                     System.currentTimeMillis());
+
+                            String sortOrderJournal = KidneyContract.JournalEntry.COLUMN_DATE + " ASC";
+                            Uri JournalUri = KidneyContract.JournalEntry.buildJournalWithStartDate(
+                                System.currentTimeMillis());
 
                     }
                     catch (JSONException e) {
@@ -329,9 +348,7 @@ public class ChooseTheMeal extends AppCompatActivity {
         public class FetchValuesTask extends AsyncTask<String, Void, String[]> {
 
             private final String LOG_TAG = TestActivityFragment.FetchTask.class.getSimpleName();
-
             //można tu walnąć konstruktor i wtedy przenieść do innego pliku tę całą klasę
-
             private boolean DEBUG = true;
 
             private String getReadableDateString(long time){
@@ -435,12 +452,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                 maxPositions = 7;
 
                 try {
-                    // Construct the URL for the OpenWeatherMap query
-                    // Possible parameters are avaiable at OWM's forecast API page, at
-                    // http://openweathermap.org/API#forecast
-
-                    final String FORECAST_BASE_URL =
-                            "http://api.nal.usda.gov/ndb/reports/?";
+                    final String FORECAST_BASE_URL = "http://api.nal.usda.gov/ndb/reports/?";
                     final String FORMAT_PARAM = "format";
                     final String TYPE_PARAM = "type";
                     final String NDBO_PARAM = "ndbno";
@@ -520,12 +532,10 @@ public class ChooseTheMeal extends AppCompatActivity {
                     mFood.clear();
                     for (String dayForecastStr : result) {
                         mFood.add(dayForecastStr);
-                        Log.d("My array list content: ", dayForecastStr);                    }
-
+                        Log.d("My array list content: ", dayForecastStr);
+                    }
                 }
             }
-
         }
-
     }
 }

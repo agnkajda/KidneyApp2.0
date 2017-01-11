@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.agnieszka.kidneyapp20.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
-
-    <Button
-        android:text="Add the meal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_food_button"
-        android:backgroundTint="@color/kidney_blue"
-        android:layout_marginTop="25dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ListView
-        style="@style/ForecastListStyle"
-        android:id="@+id/listview_journal"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/kidney_dark_blue"
-        android:dividerHeight="1dip"
-        android:layout_below="@+id/add_food_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:orientation="vertical"
+        android:padding="10dip" >
+
+        <Button
+            android:text="Add the meal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_food_button"
+            android:backgroundTint="@color/kidney_red"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="25dp"/>
+
+        <Button
+            android:text="Delete all records"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete_all_button"
+            android:backgroundTint="@color/kidney_red"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="25dp"/>
+
+        <ListView
+            style="@style/ForecastListStyle"
+            android:id="@+id/listview_values"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/kidney_dark_blue"
+            android:dividerHeight="1dip" />
+
+        <ListView
+            style="@style/ForecastListStyle"
+            android:id="@+id/listview_journal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/kidney_dark_blue"
+            android:dividerHeight="1dip"
+            android:layout_marginBottom="25dp"/>
 
 
-</RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

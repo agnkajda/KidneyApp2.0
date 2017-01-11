@@ -178,14 +178,6 @@ public class TestActivityFragment extends Fragment {
             JSONObject item = forecastJson.getJSONObject(NDB_LIST);
             JSONArray weatherArray = item.getJSONArray(NDB_ITEM);
 
-            // OWM returns daily forecasts based upon the local time of the city that is being
-            // asked for, which means that we need to know the GMT offset to translate this data
-            // properly.
-
-            // Since this data is also sent in-order and the first day is always the
-            // current day, we're going to take advantage of that to get a nice
-            // normalized UTC date for all of our weather.
-
             Time dayTime = new Time();
             dayTime.setToNow();
 
@@ -209,33 +201,11 @@ public class TestActivityFragment extends Fragment {
                 int number = foodValues.getInt(NDB_NDBNO);
                 String foodName = foodValues.getString(NDB_NAME);
 
-/*
-                JSONObject listJson = forecastJson.getJSONObject(NDB_LIST);
-                JSONObject itemJson = listJson.getJSONObject(NDB_ITEM);
-                String itemName = itemJson.getString(NDB_NAME);
-                String itemNdbno = itemJson.getString(NDB_NDBNO);
-*/
-
-                // The date/time is returned as a long.  We need to convert that
-                // into something human-readable, since most people won't read "1400356800" as
-                // "this saturday".
                 long dateTime;
                 // Cheating to convert this to UTC time, which is what we want anyhow
                 dateTime = dayTime.setJulianDay(julianStartDay+i);
                 day = getReadableDateString(dateTime);
 
-                // description is in a child array called "weather", which is 1 element long.
-                //JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
-                //description = weatherObject.getString(OWM_DESCRIPTION);
-
-                // Temperatures are in a child object called "temp".  Try not to name variables
-                // "temp" when working with temperature.  It confuses everybody.
-                //JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
-                //double high = temperatureObject.getDouble(OWM_MAX);
-                //double low = temperatureObject.getDouble(OWM_MIN);
-
-               // highAndLow = formatHighLows(high, low);
-                //resultStrs[i] = day + " - " + description + " - " + highAndLow;
                 resultStrs[i] = foodName + " | " + number;
             }
             for (String s : resultStrs) {
@@ -267,9 +237,6 @@ public class TestActivityFragment extends Fragment {
             int offset = 0;
 
             try {
-                // Construct the URL for the OpenWeatherMap query
-                // Possible parameters are avaiable at OWM's forecast API page, at
-                // http://openweathermap.org/API#forecast
 
                 final String FORECAST_BASE_URL =
                         "http://api.nal.usda.gov/ndb/search/?";
@@ -293,7 +260,6 @@ public class TestActivityFragment extends Fragment {
 
                 Log.v(LOG_TAG, "Built URI " + builtUri.toString());
 
-                // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();

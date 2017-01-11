@@ -96,7 +96,7 @@ public class KidneyProvider extends ContentProvider {
 
         if (startDate == 0) {
             selection = sValuesDateSelection;
-            selectionArgs = null; // Nie wiem, co tutaj ma być??? nic? null?
+            selectionArgs = null;
         } else {
             selectionArgs = new String[]{Long.toString(startDate)};
             selection = sValuesStartDateSelection;
@@ -112,12 +112,6 @@ public class KidneyProvider extends ContentProvider {
         );
     }
 
-        /*
-            Students: Here is where you need to create the UriMatcher. This UriMatcher will
-            match each URI to the WEATHER, WEATHER_WITH_LOCATION, WEATHER_WITH_LOCATION_AND_DATE,
-            and LOCATION integer constants defined above.  You can test this by uncommenting the
-            testUriMatcher test within TestUriMatcher.
-         */
         static UriMatcher buildUriMatcher() {
             // 1) The code passed into the constructor represents the code to return for the root
             // URI.  It's common to use NO_MATCH as the code for this case. Add the constructor below.
@@ -135,20 +129,12 @@ public class KidneyProvider extends ContentProvider {
             return matcher;
         }
 
-        /*
-            Students: We've coded this for you.  We just create a new WeatherDbHelper for later use
-            here.
-         */
         @Override
         public boolean onCreate() {
             mOpenHelper = new KidneyDbHelper(getContext());
             return true;
         }
 
-        /*
-            Students: Here's where you'll code the getType function that uses the UriMatcher.  You can
-            test this by uncommenting testGetType in TestProvider.
-         */
         @Override
         public String getType(Uri uri) {
 
@@ -156,9 +142,7 @@ public class KidneyProvider extends ContentProvider {
             final int match = sUriMatcher.match(uri);
 
             switch (match) {
-                // Student: Uncomment and fill out these two cases
-//            case WEATHER_WITH_LOCATION_AND_DATE:
-//            case WEATHER_WITH_LOCATION:
+
                 //CONTENT_TYPE - zwraca kilka wierszy
                 //CONTENT ITEM TYPE - zwraca jeden wiersz
                 case JOURNAL:
@@ -183,18 +167,18 @@ public class KidneyProvider extends ContentProvider {
             //do bazy danych
             Cursor retCursor;
             switch (sUriMatcher.match(uri)) {
-                // "weather/*/*"
+
                 case VALUES_WITH_DATE:
                 {
                     retCursor = getValuesByDate(uri, projection, sortOrder);
                     break;
                 }
-                // "weather/*"
+
                 case JOURNAL_WITH_DATE: {
                     retCursor = getJournalByDate(uri, projection, sortOrder);
                     break;
                 }
-                // "weather"
+
                 case JOURNAL: {
                     retCursor = mOpenHelper.getReadableDatabase().query(
                             KidneyContract.JournalEntry.TABLE_NAME,
@@ -207,7 +191,7 @@ public class KidneyProvider extends ContentProvider {
                     );
                     break;
                 }
-                // "location"
+
                 case VALUES: {
                     retCursor = mOpenHelper.getReadableDatabase().query(
                             KidneyContract.ValuesEntry.TABLE_NAME,
@@ -227,10 +211,6 @@ public class KidneyProvider extends ContentProvider {
             retCursor.setNotificationUri(getContext().getContentResolver(), uri);
             return retCursor;
         }
-
-        /*
-            Student: Add the ability to insert Locations to the implementation of this function.
-         */
 
         @Override
         public Uri insert(Uri uri, ContentValues values) {
@@ -269,10 +249,6 @@ public class KidneyProvider extends ContentProvider {
         public int delete(Uri uri, String selection, String[] selectionArgs) {
             // Student: Start by getting a writable database
             final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-
-            // Student: Use the uriMatcher to match the WEATHER and LOCATION URI's we are going to
-            // handle.  If it doesn't match these, throw an UnsupportedOperationException.
-
             final int match = sUriMatcher.match(uri);
             int rowsDeleted;
             // this makes delete all rows return the number of rows deleted
@@ -290,7 +266,7 @@ public class KidneyProvider extends ContentProvider {
                     throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
 
-            // Student: A null value deletes all rows.  In my implementation of this, I only notified
+            // A null value deletes all rows.  In my implementation of this, I only notified
             // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
             // is null.
             // Oh, and you should notify the listeners here.
@@ -298,7 +274,6 @@ public class KidneyProvider extends ContentProvider {
             if (rowsDeleted != 0) {
                 getContext().getContentResolver().notifyChange(uri, null);
             }
-            // Student: return the actual rows deleted
 
             return rowsDeleted;
         }
@@ -322,8 +297,6 @@ public class KidneyProvider extends ContentProvider {
         @Override
         public int update(
                 Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-            // Student: This is a lot like the delete function.  We return the number of rows impacted
-            // by the update.
             final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
             final int match = sUriMatcher.match(uri);

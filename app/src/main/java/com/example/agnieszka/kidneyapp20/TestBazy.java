@@ -5,14 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-
-import com.example.agnieszka.kidneyapp20.JournalFragment;
-import com.example.agnieszka.kidneyapp20.R;
-import com.example.agnieszka.kidneyapp20.SettingsActivity;
-
-
 
 public class TestBazy extends ActionBarActivity {
 

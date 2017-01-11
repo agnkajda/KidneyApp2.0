@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:id="@+id/add_food_button"
-            android:backgroundTint="@color/kidney_blue" />
+            android:backgroundTint="@color/kidney_red" />
 
         <TextView
             android:fontFamily="sans-serif-condensed"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:id="@+id/add_food_button2"
-                android:backgroundTint="@color/kidney_blue" />
+                android:backgroundTint="@color/kidney_red" />
 
             <LinearLayout
                 android:gravity="left"
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:id="@+id/add_food_button3"
-                    android:backgroundTint="@color/kidney_blue" />
+                    android:backgroundTint="@color/kidney_red" />
 
 
                 <TextView

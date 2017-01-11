@@ -41,6 +41,15 @@ public class KidneyContract {
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_FOOD_NAME = "food_name";
         public static final String COLUMN_AMOUNT = "amount";
+        public static final String COLUMN_KCAL = "kcal";
+        public static final String COLUMN_CARBON = "carbon";
+        public static final String COLUMN_FAT = "fat";
+        public static final String COLUMN_PROTEIN = "protein";
+        public static final String COLUMN_PHOSPHORUS = "phosphorus";
+        public static final String COLUMN_SODIUM = "sodium";
+        public static final String COLUMN_POTASSIUM = "potassium";
+        public static final String COLUMN_FLUID = "fluid";
+
 
         public static Uri buildJournalUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -125,9 +134,6 @@ public class KidneyContract {
             else
                 return 0;
         }
-
-        //ile ma byc tych content uriow? nie wiem!
-
 
     }
 }

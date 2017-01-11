@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:id="@+id/add_to_journal_button"
-            android:backgroundTint="@color/kidney_blue" />
+            android:backgroundTint="@color/kidney_red" />
 
         <ListView
             android:id="@+id/listview_forecast_3"

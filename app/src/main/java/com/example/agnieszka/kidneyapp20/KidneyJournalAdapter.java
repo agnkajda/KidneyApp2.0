@@ -11,27 +11,29 @@ import android.widget.TextView;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 
 
-public class KidneyAdapter extends CursorAdapter {
-
-    public KidneyAdapter(Context context, Cursor c, int flags) {
+public class KidneyJournalAdapter extends CursorAdapter {
+    public KidneyJournalAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
+
     private String convertCursorRowToUXFormat(Cursor cursor) {
         // get row indices for our cursor
-        int idx_date = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_DATE);
-        int idx_kcal = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_KCAL);
-        int idx_carbon = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_CARBON);
-        int idx_fat = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_FAT);
-        int idx_protein = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_PROTEIN);
-        int idx_phosphorus = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_PHOSPHORUS);
-        int idx_sodium = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_SODIUM);
-        int idx_potassium = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_POTASSIUM);
-        int idx_fluid = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_FLUID);
+        int idx_date = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_DATE);
+        int idx_kcal = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_KCAL);
+        int idx_food_name = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_FOOD_NAME);
+        int idx_carbon = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_CARBON);
+        int idx_fat = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_FAT);
+        int idx_protein = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_PROTEIN);
+        int idx_phosphorus = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_PHOSPHORUS);
+        int idx_sodium = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_SODIUM);
+        int idx_potassium = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_POTASSIUM);
+        int idx_fluid = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_FLUID);
 
 
         return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
                 "\n\nKcal: " + cursor.getString(idx_kcal) +
+                "\nFood name: " + cursor.getString(idx_food_name) +
                 "\nCarbon: " + cursor.getDouble(idx_carbon) +
                 "\nFat: " + cursor.getDouble(idx_fat) +
                 "\nProtein: " + cursor.getDouble(idx_protein) +
@@ -43,7 +45,7 @@ public class KidneyAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_kidney_adapter, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_kidney_journal_adapter, parent, false);
 
         return view;
     }
@@ -52,8 +54,9 @@ public class KidneyAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         // our view is pretty simple here --- just a text view
         // we'll keep the UI functional with a simple (and slow!) binding.
-
         TextView tv = (TextView)view;
         tv.setText(convertCursorRowToUXFormat(cursor));
     }
+
+
 }

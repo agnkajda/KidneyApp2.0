@@ -20,7 +20,7 @@ tools:context="com.example.agnieszka.kidneyapp20.AddingFood">
     android:layout_below="@+id/search_for_food"
     android:layout_alignLeft="@+id/search_for_food"
     android:layout_alignStart="@+id/search_for_food"
-    android:backgroundTint="@color/kidney_blue" />
+    android:backgroundTint="@color/kidney_red" />
 
 <EditText
     android:layout_width="wrap_content"

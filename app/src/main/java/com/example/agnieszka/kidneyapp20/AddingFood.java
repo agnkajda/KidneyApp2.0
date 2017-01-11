@@ -2,33 +2,20 @@ package com.example.agnieszka.kidneyapp20;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class AddingFood extends AppCompatActivity {
 
     Button clickToSearch;
     EditText typeToSearch;
     Context context;
-
     //private ArrayAdapter<String> mKidneyAdapter;
 
     @Override
@@ -38,8 +25,6 @@ public class AddingFood extends AppCompatActivity {
 
         clickToSearch = (Button) findViewById(R.id.search_button);
         typeToSearch = (EditText) findViewById(R.id.search_for_food);
-
-
         //setHasOptionsMenu(true);
 
         View.OnClickListener clicking = new View.OnClickListener() {
@@ -55,13 +40,8 @@ public class AddingFood extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-
-
         clickToSearch.setOnClickListener(clicking);
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

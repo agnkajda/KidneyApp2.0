@@ -1,13 +1,12 @@
 package com.example.agnieszka.kidneyapp20;
 
-        import android.content.Context;
-        import android.content.SharedPreferences;
-        import android.preference.PreferenceManager;
-        import android.text.format.Time;
-
-        import java.text.DateFormat;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.format.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utility {
 
@@ -40,7 +39,6 @@ public class Utility {
                 .equals(context.getString(R.string.pref_units_metric));
     }
 
-
     static String formatDate(long dateInMilliseconds) {
         Date date = new Date(dateInMilliseconds);
         return DateFormat.getDateInstance().format(date);
@@ -50,14 +48,6 @@ public class Utility {
     // back into date objects for comparison/processing.
     public static final String DATE_FORMAT = "yyyyMMdd";
 
-    /**
-     * Helper method to convert the database representation of the date into something to display
-     * to users.  As classy and polished a user experience as "20140102" is, we can do better.
-     *
-     * @param context Context to use for resource localization
-     * @param dateInMillis The date in milliseconds
-     * @return a user-friendly representation of the date.
-     */
     public static String getFriendlyDayString(Context context, long dateInMillis) {
         // The day string for forecast uses the following logic:
         // For today: "Today, June 8"
@@ -90,14 +80,6 @@ public class Utility {
         }
     }
 
-    /**
-     * Given a day, returns just the name to use for that day.
-     * E.g "today", "tomorrow", "wednesday".
-     *
-     * @param context Context to use for resource localization
-     * @param dateInMillis The date in milliseconds
-     * @return
-     */
     public static String getDayName(Context context, long dateInMillis) {
         // If the date is today, return the localized version of "Today" instead of the actual
         // day name.
@@ -119,13 +101,6 @@ public class Utility {
         }
     }
 
-    /**
-     * Converts db date format to the format "Month day", e.g "June 24".
-     * @param context Context to use for resource localization
-     * @param dateInMillis The db formatted date string, expected to be of the form specified
-     *                in Utility.DATE_FORMAT
-     * @return The day in the form of a string formatted "December 6"
-     */
     public static String getFormattedMonthDay(Context context, long dateInMillis ) {
         Time time = new Time();
         time.setToNow();
@@ -134,8 +109,6 @@ public class Utility {
         String monthDayString = monthDayFormat.format(dateInMillis);
         return monthDayString;
     }
-
-
 
     public static int getIconResourceForWeatherCondition(int weatherId) {
         // Based on weather code data found at:
@@ -167,8 +140,6 @@ public class Utility {
     }
 
     public static int getArtResourceForWeatherCondition(int weatherId) {
-        // Based on weather code data found at:
-        // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
         if (weatherId >= 200 && weatherId <= 232) {
             return R.drawable.art_storm;
         } else if (weatherId >= 300 && weatherId <= 321) {

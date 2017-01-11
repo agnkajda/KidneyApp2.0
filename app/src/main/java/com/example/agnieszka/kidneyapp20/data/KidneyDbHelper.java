@@ -9,7 +9,7 @@ import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
 
 public class KidneyDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     static final String DATABASE_NAME = "kidney.db";
 
@@ -24,23 +24,17 @@ public class KidneyDbHelper extends SQLiteOpenHelper {
                 JournalEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 JournalEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
                 JournalEntry.COLUMN_FOOD_NAME + " TEXT NOT NULL, " +
-                JournalEntry.COLUMN_AMOUNT + " REAL NOT NULL " + //REAL CZY INTEGER?
+                JournalEntry.COLUMN_AMOUNT + " REAL NOT NULL, " +
+                JournalEntry.COLUMN_KCAL + " REAL, " +
+                JournalEntry.COLUMN_CARBON + " REAL, " +
+                JournalEntry.COLUMN_FAT + " REAL, " +
+                JournalEntry.COLUMN_PROTEIN + " REAL, " +
+                JournalEntry.COLUMN_PHOSPHORUS+ " REAL, " +
+                JournalEntry.COLUMN_SODIUM + " REAL, " +
+                JournalEntry.COLUMN_POTASSIUM + " REAL, " +
+                JournalEntry.COLUMN_FLUID + " REAL " +
                 " );";
-/*
-        final String SQL_CREATE_VALUES_TABLE = "CREATE TABLE " + ValuesEntry.TABLE_NAME + " (" +
-                ValuesEntry._ID + " INTEGER PRIMARY KEY," +
-                ValuesEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
-                ValuesEntry.COLUMN_KCAL + " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_CARBON + " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_FAT + " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_PROTEIN + " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_PHOSPHORUS+ " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_SODIUM + " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_POTASSIUM + " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_FLUID + " REAL NOT NULL, " +
-                ValuesEntry.COLUMN_IF_DIALYZED + " INTEGER NOT NULL" +
-                " );";
-                */
+
 
         final String SQL_CREATE_VALUES_TABLE = "CREATE TABLE " + ValuesEntry.TABLE_NAME + " (" +
                 ValuesEntry._ID + " INTEGER PRIMARY KEY," +

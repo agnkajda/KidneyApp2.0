@@ -3,9 +3,7 @@ package com.example.agnieszka.kidneyapp20;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,12 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.example.agnieszka.kidneyapp20.KidneyAdapter;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
-
-import static com.example.agnieszka.kidneyapp20.data.KidneyContract.normalizeDate;
-
 
 public class JournalFragment extends Fragment {
 
@@ -70,7 +63,6 @@ public class JournalFragment extends Fragment {
         // up with an empty list the first time we run.
         mKidneyAdapter = new KidneyAdapter(getActivity(), cur, 0);
 
-
         View rootView = inflater.inflate(R.layout.fragment_activitytocheck, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
@@ -79,7 +71,6 @@ public class JournalFragment extends Fragment {
 
         return rootView;
     }
-
 
     @Override
     public void onStart() {
