@@ -63,8 +63,8 @@ public class MainActivityFragment extends Fragment {
                 Uri uri = KidneyContract.ValuesEntry.CONTENT_URI;
                 int rowsDeleted;
                 rowsDeleted = context.getContentResolver().delete(uri, null, null);
-                //uri = KidneyContract.JournalEntry.CONTENT_URI;
-                //rowsDeleted = context.getContentResolver().delete(uri, null, null);
+                uri = KidneyContract.JournalEntry.CONTENT_URI;
+                rowsDeleted = context.getContentResolver().delete(uri, null, null);
                 Intent intent = new Intent (context, MainActivity.class);
                 startActivity(intent);
             }
