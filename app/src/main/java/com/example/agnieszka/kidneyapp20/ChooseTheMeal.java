@@ -54,8 +54,6 @@ public class ChooseTheMeal extends AppCompatActivity {
     static String foodJsonStr;
     static int maxPositions;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +64,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                     .add(R.id.container, new ChooseTheMealFragment())
                     .commit();
         }
-
     }
 
     @Override
@@ -216,23 +213,31 @@ public class ChooseTheMeal extends AppCompatActivity {
                         dateTime = dayTime.setJulianDay(julianStartDay);
 
                         kidneyValues.put(ValuesEntry.COLUMN_DATE, dateTime);
+
+                        String type;
+                        double value;
+                        int nutrientId;
+
                         journalValues.put(JournalEntry.COLUMN_DATE, dateTime);
+                        journalValues.put(JournalEntry.COLUMN_AMOUNT, amount);
+
+                        String foodName = food.getString(NDB_NAME);
+                        StringTokenizer tokens = new StringTokenizer(foodName, ":");
+                        String firstPart = tokens.nextToken();
+                        journalValues.put(JournalEntry.COLUMN_FOOD_NAME, firstPart);
 
                         for (int i = 0; i < nutrientsArray.length(); i++) {
 
-                            String type;
-                            double value;
-                            int nutrientId;
-
                             JSONObject foodValues = nutrientsArray.getJSONObject(i);
+
                             type = foodValues.getString(NDB_NAME);
                             value = foodValues.getDouble(NDB_VALUE);
                             nutrientId = foodValues.getInt(NDB_ID);
+
+
                             value = value * amount * 0.01;
                             value = round(value, 2);
 
-                            journalValues.put(JournalEntry.COLUMN_FOOD_NAME, type);
-                            journalValues.put(JournalEntry.COLUMN_AMOUNT, amount);
 
                             switch (nutrientId) {
                                 case water:

@@ -75,7 +75,7 @@ public class MainActivityFragment extends Fragment {
 
 
         // Sort order:  Ascending, by date.
-        String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
+        String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " DESC";
         Uri foodJournal = KidneyContract.ValuesEntry.buildValuesWithStartDate(System.currentTimeMillis());
         //Uri valuesForLocationUri = KidneyContract.ValuesEntry.buildValuesUri(0);
         Toast.makeText(getActivity().getApplicationContext(), "co zostalo inserted: " + foodJournal, Toast.LENGTH_SHORT).show();
