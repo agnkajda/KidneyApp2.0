@@ -224,9 +224,9 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                         boolean checked =  dbHelper.CheckIfDateExists(dateTime);
 
-
                         if (checked) {
                             Log.e("LOG_TAG", "record already exists");
+                            dbHelper.updatingValue(100, ValuesEntry.COLUMN_KCAL, dateTime);
                         }
 
                         else
@@ -286,7 +286,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                             }
 
                             cVVector.add(kidneyValues);
-
 
                             Uri inserted = KidneyContract.ValuesEntry.CONTENT_URI;
                             inserted = mContext.getContentResolver().insert(KidneyContract.ValuesEntry.CONTENT_URI, kidneyValues);
