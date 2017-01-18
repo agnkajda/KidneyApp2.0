@@ -30,7 +30,7 @@ public class JournalFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.forecastfragment, menu);
+        inflater.inflate(R.menu.main, menu);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class JournalFragment extends Fragment {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_refresh) {
+        if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -50,7 +50,7 @@ public class JournalFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Sort order:  Ascending, by date.
-        String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
+        String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " DESC";
         Uri valuesForToday = KidneyContract.ValuesEntry.buildValuesWithStartDate(System.currentTimeMillis());
         //Uri valuesForLocationUri = KidneyContract.ValuesEntry.buildValuesUri(0);
         Toast.makeText(getActivity().getApplicationContext(), "co zostalo inserted: " + valuesForToday + " lolo ", Toast.LENGTH_SHORT).show();

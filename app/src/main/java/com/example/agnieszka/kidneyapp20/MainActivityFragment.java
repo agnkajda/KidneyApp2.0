@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,8 +34,29 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Add this line in order for this fragment to handle menu events.
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main, menu);
+        // to dodalam dla testu:
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -99,8 +121,10 @@ public class MainActivityFragment extends Fragment {
                 Long.toString(normalizeDate(System.currentTimeMillis()))
         };
 
+        String sortOrderJournal = KidneyContract.JournalEntry.COLUMN_DATE + " DESC";
+
         Cursor curJournal = getActivity().getContentResolver().query(valuesForToday,
-                null, null, null, sortOrder);
+                null, null, null, sortOrderJournal);
 
         //curJournal = getValuesByDate(valuesForToday, null, null);
         // sprobowac z funkcja getValuesByDate
@@ -117,6 +141,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     public static class ListUtils {
+        // funkcja, dzieki ktorej wysokosc ListView jest dynamicznie obliczana
         public static void setDynamicHeight(ListView mListView) {
             ListAdapter mListAdapter = mListView.getAdapter();
             if (mListAdapter == null) {

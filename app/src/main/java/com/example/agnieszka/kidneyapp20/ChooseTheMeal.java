@@ -1,6 +1,7 @@
 package com.example.agnieszka.kidneyapp20;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
+import com.example.agnieszka.kidneyapp20.data.KidneyDbHelper;
+import com.example.agnieszka.kidneyapp20.data.KidneyProvider;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.JournalEntry;
 
@@ -182,6 +185,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                     String amountStr = typeAmount.getText().toString();
                     double amount = Double.parseDouble(amountStr);
 
+
                     try {
 
                         JSONObject foodJson = new JSONObject(foodJsonStr);
@@ -209,10 +213,91 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                         long dateTime;
 
+                        Context mContext;
+
+                        mContext = getActivity().getApplicationContext();
+
                         // Cheating to convert this to UTC time, which is what we want anyhow
                         dateTime = dayTime.setJulianDay(julianStartDay);
 
-                        kidneyValues.put(ValuesEntry.COLUMN_DATE, dateTime);
+                        KidneyDbHelper dbHelper = new KidneyDbHelper(mContext);
+
+                        boolean checked =  dbHelper.CheckIfDateExists(dateTime);
+
+
+                        if (checked) {
+                            Log.e("LOG_TAG", "record already exists");
+                        }
+
+                        else
+                        {
+                            kidneyValues.put(ValuesEntry.COLUMN_DATE, dateTime);
+
+                            String type;
+                            double value;
+                            int nutrientId;
+
+                            for (int i = 0; i < nutrientsArray.length(); i++) {
+
+                                JSONObject foodValues = nutrientsArray.getJSONObject(i);
+
+                                type = foodValues.getString(NDB_NAME);
+                                value = foodValues.getDouble(NDB_VALUE);
+                                nutrientId = foodValues.getInt(NDB_ID);
+
+
+                                value = value * amount * 0.01;
+                                value = round(value, 2);
+
+
+                                switch (nutrientId) {
+                                    case water:
+                                        kidneyValues.put(ValuesEntry.COLUMN_FLUID, value);
+                                        break;
+
+                                    case energy:
+                                        kidneyValues.put(ValuesEntry.COLUMN_KCAL, value);
+                                        break;
+
+                                    case carbohydrate:
+                                        kidneyValues.put(ValuesEntry.COLUMN_CARBON, value);
+                                        break;
+
+                                    case fat:
+                                        kidneyValues.put(ValuesEntry.COLUMN_FAT, value);
+                                        break;
+
+                                    case protein:
+                                        kidneyValues.put(ValuesEntry.COLUMN_PROTEIN, value);
+                                        break;
+
+                                    case phosphorus:
+                                        kidneyValues.put(ValuesEntry.COLUMN_PHOSPHORUS, value);
+                                        break;
+
+                                    case sodium:
+                                        kidneyValues.put(ValuesEntry.COLUMN_SODIUM, value);
+                                        break;
+
+                                    case potassium:
+                                        kidneyValues.put(ValuesEntry.COLUMN_POTASSIUM, value);
+                                        break;
+                                }
+                            }
+
+                            cVVector.add(kidneyValues);
+
+
+                            Uri inserted = KidneyContract.ValuesEntry.CONTENT_URI;
+                            inserted = mContext.getContentResolver().insert(KidneyContract.ValuesEntry.CONTENT_URI, kidneyValues);
+
+                            String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
+                            Uri weatherForLocationUri = KidneyContract.ValuesEntry.buildValuesWithStartDate(
+                                    System.currentTimeMillis());
+
+                        }
+
+                        //now journal
 
                         String type;
                         double value;
@@ -241,64 +326,44 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                             switch (nutrientId) {
                                 case water:
-                                    kidneyValues.put(ValuesEntry.COLUMN_FLUID, value);
                                     journalValues.put(JournalEntry.COLUMN_FLUID, value);
                                     break;
 
                                 case energy:
-                                    kidneyValues.put(ValuesEntry.COLUMN_KCAL, value);
                                     journalValues.put(JournalEntry.COLUMN_KCAL, value);
                                     break;
 
                                 case carbohydrate:
-                                    kidneyValues.put(ValuesEntry.COLUMN_CARBON, value);
                                     journalValues.put(JournalEntry.COLUMN_CARBON, value);
                                     break;
 
                                 case fat:
-                                    kidneyValues.put(ValuesEntry.COLUMN_FAT, value);
                                     journalValues.put(JournalEntry.COLUMN_FAT, value);
                                     break;
 
                                 case protein:
-                                    kidneyValues.put(ValuesEntry.COLUMN_PROTEIN, value);
                                     journalValues.put(JournalEntry.COLUMN_PROTEIN, value);
                                     break;
 
                                 case phosphorus:
-                                    kidneyValues.put(ValuesEntry.COLUMN_PHOSPHORUS, value);
                                     journalValues.put(JournalEntry.COLUMN_PHOSPHORUS, value);
                                     break;
 
                                 case sodium:
-                                    kidneyValues.put(ValuesEntry.COLUMN_SODIUM, value);
                                     journalValues.put(JournalEntry.COLUMN_SODIUM, value);
                                     break;
 
                                 case potassium:
-                                    kidneyValues.put(ValuesEntry.COLUMN_POTASSIUM, value);
                                     journalValues.put(JournalEntry.COLUMN_POTASSIUM, value);
                                     break;
                             }
                         }
 
-                            cVVector.add(kidneyValues);
                             cVVectorJournal.add(journalValues);
-
-                            Context mContext;
-
-                            mContext = getActivity().getApplicationContext();
-
-                            Uri inserted = KidneyContract.ValuesEntry.CONTENT_URI;
-                            inserted = mContext.getContentResolver().insert(KidneyContract.ValuesEntry.CONTENT_URI, kidneyValues);
 
                             Uri insertedToJournal = KidneyContract.JournalEntry.CONTENT_URI;
                             insertedToJournal = mContext.getContentResolver().
                                     insert(KidneyContract.JournalEntry.CONTENT_URI, journalValues);
-
-                            String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
-                            Uri weatherForLocationUri = KidneyContract.ValuesEntry.buildValuesWithStartDate(
-                                    System.currentTimeMillis());
 
                             String sortOrderJournal = KidneyContract.JournalEntry.COLUMN_DATE + " ASC";
                             Uri JournalUri = KidneyContract.JournalEntry.buildJournalWithStartDate(

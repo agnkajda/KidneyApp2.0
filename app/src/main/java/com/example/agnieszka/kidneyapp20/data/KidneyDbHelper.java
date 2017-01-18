@@ -1,6 +1,7 @@
 package com.example.agnieszka.kidneyapp20.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -52,6 +53,20 @@ public class KidneyDbHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(SQL_CREATE_JOURNAL_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_VALUES_TABLE);
+    }
+
+    public boolean CheckIfDateExists (long date) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String Query = "Select * from " +  KidneyContract.ValuesEntry.TABLE_NAME + " where " +
+                KidneyContract.ValuesEntry.COLUMN_DATE + " = " + date;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 
     @Override
