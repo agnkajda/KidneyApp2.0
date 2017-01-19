@@ -76,6 +76,16 @@ public class KidneyDbHelper extends SQLiteOpenHelper {
                 " WHERE " + ValuesEntry.COLUMN_DATE + " = " + date );
     }
 
+    public void deletingValue (double value, String columnName, long date){
+        SQLiteDatabase db = this.getReadableDatabase();
+        value = value * (-1);
+        db.execSQL("UPDATE " +  ValuesEntry.TABLE_NAME + " SET " +
+                columnName + " = " + columnName + " + " + value +
+                " WHERE " + ValuesEntry.COLUMN_DATE + " = " + date );
+        db.execSQL(" DELETE FROM " + JournalEntry.TABLE_NAME + " \n" +
+                "WHERE " + JournalEntry.COLUMN_DATE + " = " + date + "; ");
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + JournalEntry.TABLE_NAME);

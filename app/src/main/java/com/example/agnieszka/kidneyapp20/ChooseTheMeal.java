@@ -290,10 +290,8 @@ public class ChooseTheMeal extends AppCompatActivity {
                                 value = foodValues.getDouble(NDB_VALUE);
                                 nutrientId = foodValues.getInt(NDB_ID);
 
-
                                 value = value * amount * 0.01;
                                 value = round(value, 2);
-
 
                                 switch (nutrientId) {
                                     case water:
@@ -362,10 +360,8 @@ public class ChooseTheMeal extends AppCompatActivity {
                             value = foodValues.getDouble(NDB_VALUE);
                             nutrientId = foodValues.getInt(NDB_ID);
 
-
                             value = value * amount * 0.01;
                             value = round(value, 2);
-
 
                             switch (nutrientId) {
                                 case water:
