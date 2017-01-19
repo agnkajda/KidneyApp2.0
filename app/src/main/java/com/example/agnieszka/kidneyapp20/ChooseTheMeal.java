@@ -214,7 +214,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                         long dateTime;
 
                         Context mContext;
-
                         mContext = getActivity().getApplicationContext();
 
                         // Cheating to convert this to UTC time, which is what we want anyhow
@@ -226,7 +225,53 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                         if (checked) {
                             Log.e("LOG_TAG", "record already exists");
-                            dbHelper.updatingValue(100, ValuesEntry.COLUMN_KCAL, dateTime);
+                            double value;
+                            int nutrientId;
+
+                            for (int i = 0; i < nutrientsArray.length(); i++) {
+
+                                JSONObject foodValues = nutrientsArray.getJSONObject(i);
+
+                                value = foodValues.getDouble(NDB_VALUE);
+                                nutrientId = foodValues.getInt(NDB_ID);
+
+                                value = value * amount * 0.01;
+                                value = round(value, 2);
+
+                                switch (nutrientId) {
+                                    case water:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_FLUID, dateTime);
+                                        break;
+
+                                    case energy:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_KCAL, dateTime);
+                                        break;
+
+                                    case carbohydrate:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_CARBON, dateTime);
+                                        break;
+
+                                    case fat:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_FAT, dateTime);
+                                        break;
+
+                                    case protein:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_PROTEIN, dateTime);
+                                        break;
+
+                                    case phosphorus:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_PHOSPHORUS, dateTime);
+                                        break;
+
+                                    case sodium:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_SODIUM, dateTime);
+                                        break;
+
+                                    case potassium:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_POTASSIUM, dateTime);
+                                        break;
+                                }
+                            }
                         }
 
                         else
@@ -290,10 +335,9 @@ public class ChooseTheMeal extends AppCompatActivity {
                             Uri inserted = KidneyContract.ValuesEntry.CONTENT_URI;
                             inserted = mContext.getContentResolver().insert(KidneyContract.ValuesEntry.CONTENT_URI, kidneyValues);
 
-                            String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " ASC";
+                            String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " DESC";
                             Uri weatherForLocationUri = KidneyContract.ValuesEntry.buildValuesWithStartDate(
                                     System.currentTimeMillis());
-
                         }
 
                         //now journal
@@ -364,7 +408,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                             insertedToJournal = mContext.getContentResolver().
                                     insert(KidneyContract.JournalEntry.CONTENT_URI, journalValues);
 
-                            String sortOrderJournal = KidneyContract.JournalEntry.COLUMN_DATE + " ASC";
+                            String sortOrderJournal = KidneyContract.JournalEntry.COLUMN_DATE + " DESC";
                             Uri JournalUri = KidneyContract.JournalEntry.buildJournalWithStartDate(
                                 System.currentTimeMillis());
 
