@@ -31,12 +31,14 @@ public class KidneyProvider extends ContentProvider {
             //weather INNER JOIN location ON weather.location_id = location._id
             // niby połączyłam te dwa datami
             sJournalByDateQueryBuilder.setTables(
-                KidneyContract.JournalEntry.TABLE_NAME + " INNER JOIN " +
+                    KidneyContract.JournalEntry.TABLE_NAME);
+                //TODO: tutaj chyba powinno być coś jeszcze, żeby wybierało po dacie
+                    /*KidneyContract.JournalEntry.TABLE_NAME + " INNER JOIN " +
                         KidneyContract.ValuesEntry.TABLE_NAME +
                         " ON " + KidneyContract.JournalEntry.TABLE_NAME +
                         "." + KidneyContract.JournalEntry.COLUMN_DATE +
                         " = " + KidneyContract.ValuesEntry.TABLE_NAME +
-                        "." + KidneyContract.ValuesEntry.COLUMN_DATE);
+                        "." + KidneyContract.ValuesEntry.COLUMN_DATE);*/
 
             sValuesByDateQueryBuilder = new SQLiteQueryBuilder();
             sValuesByDateQueryBuilder.setTables(

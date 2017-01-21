@@ -10,18 +10,17 @@ import android.widget.TextView;
 
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 
-
 public class KidneyJournalAdapter extends CursorAdapter {
     public KidneyJournalAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
-
 
     private String convertCursorRowToUXFormat(Cursor cursor) {
         // get row indices for our cursor
         int idx_date = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_DATE);
         int idx_kcal = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_KCAL);
         int idx_food_name = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_FOOD_NAME);
+        int idx_amount = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_AMOUNT);
         int idx_carbon = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_CARBON);
         int idx_fat = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_FAT);
         int idx_protein = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_PROTEIN);
@@ -30,8 +29,7 @@ public class KidneyJournalAdapter extends CursorAdapter {
         int idx_potassium = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_POTASSIUM);
         int idx_fluid = cursor.getColumnIndex(KidneyContract.JournalEntry.COLUMN_FLUID);
 
-
-        return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
+        /*return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
                 "\n\nKcal: " + cursor.getString(idx_kcal) +
                 "\nFood name: " + cursor.getString(idx_food_name) +
                 "\nCarbon: " + cursor.getDouble(idx_carbon) +
@@ -40,8 +38,12 @@ public class KidneyJournalAdapter extends CursorAdapter {
                 "\nPhosphorus: " + cursor.getDouble(idx_phosphorus) +
                 "\nSodium: " + cursor.getDouble(idx_sodium) +
                 "\nPotassium: " + cursor.getDouble(idx_potassium) +
-                "\nFluid: " + cursor.getDouble(idx_fluid);
-    }
+                "\nFluid: " + cursor.getDouble(idx_fluid);*/
+
+        return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
+                "\n\nFood name: " + cursor.getString(idx_food_name) +
+                "\n" + "Food name: " + cursor.getDouble(idx_amount);
+        }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -57,6 +59,5 @@ public class KidneyJournalAdapter extends CursorAdapter {
         TextView tv = (TextView)view;
         tv.setText(convertCursorRowToUXFormat(cursor));
     }
-
 
 }
