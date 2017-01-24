@@ -42,7 +42,7 @@ public class KidneyJournalAdapter extends CursorAdapter {
 
         return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
                 "\n\nFood name: " + cursor.getString(idx_food_name) +
-                "\n" + "Food name: " + cursor.getDouble(idx_amount);
+                "\n" + "Amount: " + cursor.getDouble(idx_amount) + " g";
         }
 
     @Override

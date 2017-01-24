@@ -50,7 +50,6 @@
             android:label="@string/title_activity_choose_the_meal"
             android:parentActivityName=".TestActivity"
             android:theme="@style/ForecastTheme" />
-        <activity android:name=".TestBazy" />
 
     </application>
 
