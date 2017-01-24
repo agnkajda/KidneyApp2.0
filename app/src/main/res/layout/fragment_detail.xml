@@ -12,9 +12,27 @@
 
         <!-- Header: Day, Date -->
 
+        <Button
+            android:text="Delete the meal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:id="@+id/delete_button"
+            android:backgroundTint="@color/kidney_light_blue" />
+
         <TextView
+            android:text="lalala"
             android:fontFamily="sans-serif-condensed"
             android:id="@+id/detail_day_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:text="test"
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/test_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"

@@ -20,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.net.Uri;
 
+import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.JournalEntry;
 
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

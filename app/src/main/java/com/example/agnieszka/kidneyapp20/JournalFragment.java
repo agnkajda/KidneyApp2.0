@@ -69,6 +69,8 @@ public class JournalFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listview_journal);
         listView.setAdapter(mKidneyAdapter);
 
+
+
         return rootView;
     }
 
