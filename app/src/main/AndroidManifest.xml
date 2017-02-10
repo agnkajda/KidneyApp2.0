@@ -39,18 +39,33 @@
             android:name=".TestActivity"
             android:parentActivityName=".AddingFood"
             android:theme="@style/ForecastTheme" />
-
         <activity
             android:name=".DetailActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/ForecastTheme" />
-
         <activity
             android:name=".ChooseTheMeal"
             android:label="@string/title_activity_choose_the_meal"
             android:parentActivityName=".TestActivity"
             android:theme="@style/ForecastTheme" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.agnieszka.kidneyapp20.MainActivity" />
+        </activity>
 
+        <activity
+            android:name=".DetailActivity2"
+            android:label="DetailActivity2"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/ForecastTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.agnieszka.kidneyapp20.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

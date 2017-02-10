@@ -84,6 +84,7 @@ public class KidneyDbHelper extends SQLiteOpenHelper {
                 " WHERE " + ValuesEntry.COLUMN_DATE + " = " + date );
         db.execSQL(" DELETE FROM " + JournalEntry.TABLE_NAME + " \n" +
                 "WHERE " + JournalEntry.COLUMN_DATE + " = " + date + "; ");
+        //TODO: przecież w JournalEntry będzie kilka wartości dla tej samej daty!
     }
 
     @Override

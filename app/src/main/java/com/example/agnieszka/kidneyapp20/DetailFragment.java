@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -89,7 +90,23 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         //TO DO: tu chyba trzeba coś pozmieniać
 
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
+        //testujemy
+
+        Intent intent = getActivity().getIntent();
+
+        if (intent != null) {
+            mJournal = intent.getDataString();
+        }
+
+        if (null != mJournal) {
+            ((TextView) rootView.findViewById(R.id.test_textview))
+                    .setText(mJournal);
+        }
+
+
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
         mDateView = (TextView) rootView.findViewById(R.id.detail_date_textview);
         mFriendlyDateView = (TextView) rootView.findViewById(R.id.detail_day_textview);
@@ -120,6 +137,28 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        //kolejny test
+
+        Log.v(LOG_TAG, "In onCreateLoader");
+        Intent intent = getActivity().getIntent();
+        if (intent == null) {
+            return null;
+            }
+
+                // Now create and return a CursorLoader that will take care of
+                        // creating a Cursor for the data being displayed.
+                                return new CursorLoader(
+                getActivity(),
+                intent.getData(),
+                DETAIL_COLUMNS,
+                null,
+                null,
+                null);
+
+
+
+        /*
         if ( null != mUri ) {
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
@@ -133,12 +172,36 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             );
         }
         return null;
+        */
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        //znowu test
+        Log.v(LOG_TAG, "In onLoadFinished");
+        if (!data.moveToFirst()) { return; }
+
+        String dateString = Utility.formatDate(
+                data.getLong(COL_JOURNAL_DATE));
+
+                String weatherDescription =
+                data.getString(COL_JOURNAL_FOOD_NAME);
+
+                double high = data.getDouble(COL_JOURNAL_KCAL);
+
+                double low = data.getDouble(COL_JOURNAL_CARBON);
+
+                mJournal = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
+
+                TextView detailTextView = (TextView)getView().findViewById(R.id.test_textview);
+                detailTextView.setText(mJournal);
+
+
+        /*
         if (data != null && data.moveToFirst()) {
             // Read weather condition ID from cursor
+            Log.v(LOG_TAG, "In onLoadFinished");
             int weatherId = data.getInt(COL_JOURNAL_ID);
 
             // Use weather art image
@@ -187,6 +250,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mPressureView.setText(phosphorusString);
 
         }
+        */
     }
 
     @Override

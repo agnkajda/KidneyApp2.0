@@ -98,4 +98,5 @@
     <string name="pref_enable_notifications_default" translatable="false">true</string>
     <string name="title_activity_choose_the_meal">ChooseTheMeal</string>
     <string name="title_activity_activitytocheck">Activitytocheck</string>
+    <string name="title_activity_detail2">DetailActivity2</string>
 </resources>

@@ -18,6 +18,7 @@ public class KidneyProvider extends ContentProvider {
 
         static final int JOURNAL = 300;
         static final int JOURNAL_WITH_DATE = 301;
+        static final int JOURNAL_WITH_DATE_AND_ID = 302;
         static final int VALUES = 100;
         static final int VALUES_WITH_DATE = 101;
 
@@ -49,6 +50,11 @@ public class KidneyProvider extends ContentProvider {
         private static final String sJournalDateSelection =
                 KidneyContract.JournalEntry.TABLE_NAME+
                         "." + KidneyContract.JournalEntry.COLUMN_DATE + " = ? ";
+
+    private static final String sJournalWithDateAndIdSelection =
+            KidneyContract.JournalEntry.TABLE_NAME+
+                    "." + KidneyContract.JournalEntry.COLUMN_DATE + " = ? AND " +
+                    KidneyContract.JournalEntry.COLUMN_ID + " = ? ";
 
         //location.location_setting = ? AND date >= ?
         private static final String sJournalStartDateSelection =
@@ -114,6 +120,22 @@ public class KidneyProvider extends ContentProvider {
         );
     }
 
+    private Cursor getJournalByDateAndId(
+            Uri uri, String[] projection, String sortOrder) {
+        long id = KidneyContract.JournalEntry.getIdFromUri(uri);
+        long date = KidneyContract.JournalEntry.getDateFromUri(uri);
+
+        //TO DO: tu uzupełnić
+        return sJournalByDateQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                sJournalWithDateAndIdSelection,
+                new String[]{Long.toString(id), Long.toString(date)},
+                null,
+                null,
+                sortOrder
+        );
+    }
+
         static UriMatcher buildUriMatcher() {
             // 1) The code passed into the constructor represents the code to return for the root
             // URI.  It's common to use NO_MATCH as the code for this case. Add the constructor below.
@@ -126,7 +148,8 @@ public class KidneyProvider extends ContentProvider {
             matcher.addURI(authority, KidneyContract.PATH_VALUES, VALUES);
             matcher.addURI(authority, KidneyContract.PATH_JOURNAL + "/#", JOURNAL_WITH_DATE);
             matcher.addURI(authority, KidneyContract.PATH_VALUES + "/#", VALUES_WITH_DATE);
-
+            matcher.addURI(authority, KidneyContract.PATH_JOURNAL + "/#/#", JOURNAL_WITH_DATE_AND_ID);
+            //# - matches only number, * - matches any text
             // 3) Return the new matcher!
             return matcher;
         }
@@ -147,6 +170,8 @@ public class KidneyProvider extends ContentProvider {
 
                 //CONTENT_TYPE - zwraca kilka wierszy
                 //CONTENT ITEM TYPE - zwraca jeden wiersz
+                case JOURNAL_WITH_DATE_AND_ID:
+                    return KidneyContract.JournalEntry.CONTENT_ITEM_TYPE;
                 case JOURNAL:
                     return KidneyContract.JournalEntry.CONTENT_TYPE;
                 case VALUES:
@@ -178,6 +203,13 @@ public class KidneyProvider extends ContentProvider {
 
                 case JOURNAL_WITH_DATE: {
                     retCursor = getJournalByDate(uri, projection, sortOrder);
+                    break;
+                }
+
+                //TO DO: tutaj zrobic case
+
+                case JOURNAL_WITH_DATE_AND_ID: {
+                    retCursor = getJournalByDateAndId(uri, projection, sortOrder);
                     break;
                 }
 
