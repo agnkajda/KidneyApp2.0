@@ -18,12 +18,15 @@ public class KidneyProvider extends ContentProvider {
 
         static final int JOURNAL = 300;
         static final int JOURNAL_WITH_DATE = 301;
-        static final int JOURNAL_WITH_DATE_AND_ID = 302;
+        static final int JOURNAL_WITH_ID = 302;
+        static final int JOURNAL_WITH_DATE_AND_ID = 303;
         static final int VALUES = 100;
         static final int VALUES_WITH_DATE = 101;
 
         private static final SQLiteQueryBuilder sJournalByDateQueryBuilder;
-    private static final SQLiteQueryBuilder sValuesByDateQueryBuilder;
+    private static final SQLiteQueryBuilder sJournalByIdQueryBuilder;
+        private static final SQLiteQueryBuilder sValuesByDateQueryBuilder;
+
 
         static{
             sJournalByDateQueryBuilder = new SQLiteQueryBuilder();
@@ -33,13 +36,16 @@ public class KidneyProvider extends ContentProvider {
             // niby połączyłam te dwa datami
             sJournalByDateQueryBuilder.setTables(
                     KidneyContract.JournalEntry.TABLE_NAME);
-                //TODO: tutaj chyba powinno być coś jeszcze, żeby wybierało po dacie
                     /*KidneyContract.JournalEntry.TABLE_NAME + " INNER JOIN " +
                         KidneyContract.ValuesEntry.TABLE_NAME +
                         " ON " + KidneyContract.JournalEntry.TABLE_NAME +
                         "." + KidneyContract.JournalEntry.COLUMN_DATE +
                         " = " + KidneyContract.ValuesEntry.TABLE_NAME +
                         "." + KidneyContract.ValuesEntry.COLUMN_DATE);*/
+
+            sJournalByIdQueryBuilder = new SQLiteQueryBuilder();
+            sJournalByIdQueryBuilder.setTables(
+                    KidneyContract.JournalEntry.TABLE_NAME);
 
             sValuesByDateQueryBuilder = new SQLiteQueryBuilder();
             sValuesByDateQueryBuilder.setTables(
@@ -48,8 +54,12 @@ public class KidneyProvider extends ContentProvider {
 
         //location.location_setting >= ?
         private static final String sJournalDateSelection =
-                KidneyContract.JournalEntry.TABLE_NAME+
-                        "." + KidneyContract.JournalEntry.COLUMN_DATE + " = ? ";
+            KidneyContract.JournalEntry.TABLE_NAME+
+                    "." + KidneyContract.JournalEntry.COLUMN_DATE + " = ? ";
+
+    private static final String sJournalIdSelection =
+            KidneyContract.JournalEntry.TABLE_NAME+
+                    "." + KidneyContract.JournalEntry.COLUMN_ID + " = ? ";
 
     private static final String sJournalWithDateAndIdSelection =
             KidneyContract.JournalEntry.TABLE_NAME+
@@ -96,6 +106,26 @@ public class KidneyProvider extends ContentProvider {
             );
         }
 
+    private Cursor getJournalById(Uri uri, String[] projection, String sortOrder) {
+        long id = KidneyContract.JournalEntry.getIdFromUri(uri);
+//to nie jest uzywane
+        String[] selectionArgs;
+        String selection;
+
+            selectionArgs = new String[]{Long.toString(id)};
+            selection = sJournalIdSelection;
+
+
+        return sJournalByIdQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
     private Cursor getValuesByDate(Uri uri, String[] projection, String sortOrder) {
         long startDate = KidneyContract.ValuesEntry.getStartDateFromUri(uri);
 
@@ -129,7 +159,7 @@ public class KidneyProvider extends ContentProvider {
         return sJournalByDateQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
                 sJournalWithDateAndIdSelection,
-                new String[]{Long.toString(id), Long.toString(date)},
+                new String[]{Long.toString(date), Long.toString(id)},
                 null,
                 null,
                 sortOrder

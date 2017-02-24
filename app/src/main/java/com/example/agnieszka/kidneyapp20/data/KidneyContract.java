@@ -37,9 +37,6 @@ public class KidneyContract {
         //nazwa tabeli
         public static final String TABLE_NAME = "journal";
 
-        //ID robi się automatycznie
-
-        //TO DO: co z tym id?
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_FOOD_NAME = "food_name";
@@ -53,11 +50,9 @@ public class KidneyContract {
         public static final String COLUMN_POTASSIUM = "potassium";
         public static final String COLUMN_FLUID = "fluid";
 
-
         public static Uri buildJournalUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
             }
-
 
         public static Uri buildJournalWithStartDate(long startDate) {
             long normalizedDate = normalizeDate(startDate);
@@ -74,6 +69,10 @@ public class KidneyContract {
                     .appendEncodedPath(Long.toString(id)).build();
         }
 
+        public static Uri buildJournalWithId(long date, long id) {
+            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        }
+
         public static long getStartDateFromUri(Uri uri) {
             String dateString = uri.getQueryParameter(COLUMN_DATE);
             if (null != dateString && dateString.length() > 0)
@@ -83,6 +82,7 @@ public class KidneyContract {
         }
 
         public static long getIdFromUri(Uri uri) {
+            //return Long.parseLong(uri.getPathSegments().get(1));
             return Long.parseLong(uri.getPathSegments().get(2));
         }
 

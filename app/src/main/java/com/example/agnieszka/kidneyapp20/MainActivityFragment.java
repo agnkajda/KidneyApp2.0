@@ -25,6 +25,7 @@ public class MainActivityFragment extends Fragment {
     Button addFood;
     Button deleteAll;
     Context context;
+    Button button;
     private ListView listViewJournal;
     private int mPosition = listViewJournal.INVALID_POSITION;
     private KidneyAdapter mKidneyAdapter;
@@ -75,6 +76,16 @@ public class MainActivityFragment extends Fragment {
 
         };
         addFood.setOnClickListener(clicking);
+
+        button =(Button)rootView.findViewById(R.id.sql_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent dbmanager = new Intent(getActivity(),AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
 
         deleteAll = (Button) rootView.findViewById(R.id.delete_all_button);
         View.OnClickListener clickingToDelete = new View.OnClickListener() {
@@ -158,6 +169,7 @@ public class MainActivityFragment extends Fragment {
                             cursor.getLong(COL_JOURNAL_DATE), cursor.getLong(COL_JOURNAL_ID)));
                     startActivity(intent);
                     }
+                mPosition = position;
             }
         });
 
