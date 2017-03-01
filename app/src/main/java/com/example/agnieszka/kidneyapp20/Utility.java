@@ -44,6 +44,33 @@ public class Utility {
         return DateFormat.getDateInstance().format(date);
     }
 
+    public static String getSodiumStringTreshold(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(context.getString(R.string.pref_sodium_key),
+                context.getString(R.string.pref_sodium_default));
+    }
+
+    public static double getSodiumTreshold(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_sodium_key),
+                context.getString(R.string.pref_sodium_default));
+        return Double.parseDouble(string);
+    }
+
+    public static double getPotassiumTreshold(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_potassium_key),
+                context.getString(R.string.pref_potassium_default));
+        return Double.parseDouble(string);
+    }
+
+    public static double getPhosphorusTreshold(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_phosphorus_key),
+                context.getString(R.string.pref_phosphorus_default));
+        return Double.parseDouble(string);
+    }
+
     // Format used for storing dates in the database.  ALso used for converting those strings
     // back into date objects for comparison/processing.
     public static final String DATE_FORMAT = "yyyyMMdd";

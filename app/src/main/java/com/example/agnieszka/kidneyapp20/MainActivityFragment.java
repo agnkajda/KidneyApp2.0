@@ -126,7 +126,6 @@ public class MainActivityFragment extends Fragment {
         Uri valuesForToday = KidneyContract.JournalEntry.buildJournalWithStartDate(System.currentTimeMillis());
         //Uri valuesForToday = KidneyContract.JournalEntry.buildJournalUri(normalizeDate(System.currentTimeMillis()));
 
-
         String []todayDate = new String []{
                 Long.toString(normalizeDate(System.currentTimeMillis()))
         };

@@ -47,6 +47,9 @@ import com.example.agnieszka.kidneyapp20.data.KidneyProvider;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.JournalEntry;
 
+import static com.example.agnieszka.kidneyapp20.Utility.getPhosphorusTreshold;
+import static com.example.agnieszka.kidneyapp20.Utility.getPotassiumTreshold;
+import static com.example.agnieszka.kidneyapp20.Utility.getSodiumTreshold;
 import static com.example.agnieszka.kidneyapp20.Utility.round;
 import static com.example.agnieszka.kidneyapp20.data.KidneyContract.normalizeDate;
 
@@ -56,6 +59,19 @@ public class ChooseTheMeal extends AppCompatActivity {
     static Context context;
     static String foodJsonStr;
     static int maxPositions;
+    static String mFoodName;
+    static double mAmount;
+    static double mKcal;
+    static double mCarbon;
+    static double mFat;
+    static double mProtein;
+    static double mPhosphorus;
+    static double mSodium;
+    static double mPotassium;
+    static double mFluid;
+    static int mNutritionId;
+    static long mDateTime;
+    static Uri mInsertedToJournal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +201,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                     String amountStr = typeAmount.getText().toString();
                     double amount = Double.parseDouble(amountStr);
 
-
                     try {
 
                         JSONObject foodJson = new JSONObject(foodJsonStr);
@@ -218,6 +233,7 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                         // Cheating to convert this to UTC time, which is what we want anyhow
                         dateTime = dayTime.setJulianDay(julianStartDay);
+                        mDateTime = dayTime.setJulianDay(julianStartDay);
 
                         KidneyDbHelper dbHelper = new KidneyDbHelper(mContext);
 
@@ -351,6 +367,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                         StringTokenizer tokens = new StringTokenizer(foodName, ":");
                         String firstPart = tokens.nextToken();
                         journalValues.put(JournalEntry.COLUMN_FOOD_NAME, firstPart);
+                        mFoodName=firstPart;
 
                         for (int i = 0; i < nutrientsArray.length(); i++) {
 
@@ -366,47 +383,58 @@ public class ChooseTheMeal extends AppCompatActivity {
                             switch (nutrientId) {
                                 case water:
                                     journalValues.put(JournalEntry.COLUMN_FLUID, value);
+                                    mFluid = value;
                                     break;
 
                                 case energy:
                                     journalValues.put(JournalEntry.COLUMN_KCAL, value);
+                                    mKcal = value;
                                     break;
 
                                 case carbohydrate:
                                     journalValues.put(JournalEntry.COLUMN_CARBON, value);
+                                    mCarbon = value;
                                     break;
 
                                 case fat:
                                     journalValues.put(JournalEntry.COLUMN_FAT, value);
+                                    mFat = value;
                                     break;
 
                                 case protein:
                                     journalValues.put(JournalEntry.COLUMN_PROTEIN, value);
+                                    mProtein = value;
                                     break;
 
                                 case phosphorus:
                                     journalValues.put(JournalEntry.COLUMN_PHOSPHORUS, value);
+                                    mPhosphorus = value;
                                     break;
 
                                 case sodium:
                                     journalValues.put(JournalEntry.COLUMN_SODIUM, value);
+                                    mSodium = value;
                                     break;
 
                                 case potassium:
                                     journalValues.put(JournalEntry.COLUMN_POTASSIUM, value);
+                                    mPotassium = value;
                                     break;
                             }
                         }
 
                             cVVectorJournal.add(journalValues);
 
-                            Uri insertedToJournal = KidneyContract.JournalEntry.CONTENT_URI;
-                            insertedToJournal = mContext.getContentResolver().
+                        // tutaj jest ukryte ID! W insertedToJournal
+                            mInsertedToJournal = KidneyContract.JournalEntry.CONTENT_URI;
+                            mInsertedToJournal = mContext.getContentResolver().
                                     insert(KidneyContract.JournalEntry.CONTENT_URI, journalValues);
 
                             String sortOrderJournal = KidneyContract.JournalEntry.COLUMN_DATE + " DESC";
                             Uri JournalUri = KidneyContract.JournalEntry.buildJournalWithStartDate(
                                 System.currentTimeMillis());
+
+                        Log.d("LOG_TAG", "Inserted to Journal (Uri): " + mInsertedToJournal);
 
                     }
                     catch (JSONException e) {
@@ -414,8 +442,24 @@ public class ChooseTheMeal extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Intent intent = new Intent (context, MainActivity.class);
-                    startActivity(intent);
+                    //TODO TUTAJ MUSIMY UMIESCIC SPRAWDZANIE, CZY PROGI NIE SĄ PRZEKROCZONE
+                    if (mPotassium >= getPotassiumTreshold(context) || mSodium >= getSodiumTreshold(context)
+                            || mPhosphorus >= getPhosphorusTreshold(context))
+                    {
+                        Log.d("LOG_TAG", "Progi przekroczone!!!");
+
+                        //MUSI POBIERAC DANE Z VALUES, NIE Z WARTOSCI DLA BIEZACEGO POSILKU
+                        //WYSKOCZY OKIENKO Z WYBOREM - CO DALEJ?
+                        //OK - DODAC
+                        //NIE OK - USUNAC PRODUKT
+                        Intent intent = new Intent(context, AddingFood.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Log.d("LOG_TAG", "Progi ok" + mSodium);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        startActivity(intent);
+                    }
                 }
 
             };
