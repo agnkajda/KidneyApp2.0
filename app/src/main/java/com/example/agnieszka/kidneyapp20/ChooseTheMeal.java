@@ -1,6 +1,8 @@
 package com.example.agnieszka.kidneyapp20;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -43,7 +45,6 @@ import java.util.Vector;
 
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 import com.example.agnieszka.kidneyapp20.data.KidneyDbHelper;
-import com.example.agnieszka.kidneyapp20.data.KidneyProvider;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.JournalEntry;
 
@@ -51,7 +52,6 @@ import static com.example.agnieszka.kidneyapp20.Utility.getPhosphorusTreshold;
 import static com.example.agnieszka.kidneyapp20.Utility.getPotassiumTreshold;
 import static com.example.agnieszka.kidneyapp20.Utility.getSodiumTreshold;
 import static com.example.agnieszka.kidneyapp20.Utility.round;
-import static com.example.agnieszka.kidneyapp20.data.KidneyContract.normalizeDate;
 
 public class ChooseTheMeal extends AppCompatActivity {
 
@@ -69,6 +69,9 @@ public class ChooseTheMeal extends AppCompatActivity {
     static double mSodium;
     static double mPotassium;
     static double mFluid;
+    static double mSodiumToday;
+    static double mPhosphorusToday;
+    static double mPotassiumToday;
     static int mNutritionId;
     static long mDateTime;
     static Uri mInsertedToJournal;
@@ -277,14 +280,17 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                                     case phosphorus:
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_PHOSPHORUS, dateTime);
+                                        mPhosphorusToday = value;
                                         break;
 
                                     case sodium:
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_SODIUM, dateTime);
+                                        mSodiumToday = value;
                                         break;
 
                                     case potassium:
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_POTASSIUM, dateTime);
+                                        mPotassiumToday = value;
                                         break;
                                 }
                             }
@@ -332,14 +338,17 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                                     case phosphorus:
                                         kidneyValues.put(ValuesEntry.COLUMN_PHOSPHORUS, value);
+                                        mPhosphorusToday = value;
                                         break;
 
                                     case sodium:
                                         kidneyValues.put(ValuesEntry.COLUMN_SODIUM, value);
+                                        mSodiumToday = value;
                                         break;
 
                                     case potassium:
                                         kidneyValues.put(ValuesEntry.COLUMN_POTASSIUM, value);
+                                        mPotassiumToday = value;
                                         break;
                                 }
                             }
@@ -443,20 +452,55 @@ public class ChooseTheMeal extends AppCompatActivity {
                     }
 
                     //TODO TUTAJ MUSIMY UMIESCIC SPRAWDZANIE, CZY PROGI NIE SĄ PRZEKROCZONE
-                    if (mPotassium >= getPotassiumTreshold(context) || mSodium >= getSodiumTreshold(context)
-                            || mPhosphorus >= getPhosphorusTreshold(context))
+                    if (mPotassiumToday >= getPotassiumTreshold(context) || mSodiumToday >= getSodiumTreshold(context)
+                            || mPhosphorusToday >= getPhosphorusTreshold(context))
                     {
                         Log.d("LOG_TAG", "Progi przekroczone!!!");
+                        Log.d("LOG_TAG", "Wartosc sodu: " + String.valueOf(mSodiumToday));
+                        Log.d("LOG_TAG", "Próg sodu: " + String.valueOf(getSodiumTreshold(context)));
+                        Log.d("LOG_TAG", "Wartosc potasu: " + String.valueOf(mPotassiumToday));
+                        Log.d("LOG_TAG", "Próg potasu: " + String.valueOf(getPotassiumTreshold(context)));
+                        Log.d("LOG_TAG", "Wartosc fosforu: " + String.valueOf(mPhosphorusToday));
+                        Log.d("LOG_TAG", "Próg fosforu: " + String.valueOf(getPhosphorusTreshold(context)));
 
-                        //MUSI POBIERAC DANE Z VALUES, NIE Z WARTOSCI DLA BIEZACEGO POSILKU
-                        //WYSKOCZY OKIENKO Z WYBOREM - CO DALEJ?
-                        //OK - DODAC
-                        //NIE OK - USUNAC PRODUKT
-                        Intent intent = new Intent(context, AddingFood.class);
-                        startActivity(intent);
+                        if (false){
+                            long id = Long.parseLong(mInsertedToJournal.getPathSegments().get(1));
+                            Log.d("LOG_TAG", "ID: " + String.valueOf(id));
+                            KidneyDbHelper dbHelper = new KidneyDbHelper(context);
+                            dbHelper.deletingValueFromJournal(id);
+                        }
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                        builder1.setMessage("It exceeds the threshold! Do you still want to add this meal?");
+                        builder1.setCancelable(true);
+
+                        builder1.setPositiveButton(
+                                "Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(context, MainActivity.class);
+                                        startActivity(intent);
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        builder1.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //NIE OK - USUNAC PRODUKT - pobrac id dla journal, a dla values odjac
+                                        Intent intent = new Intent(context, AddingFood.class);
+                                        startActivity(intent);
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
                     }
                     else {
-                        Log.d("LOG_TAG", "Progi ok" + mSodium);
+                        Log.d("LOG_TAG", "Progi ok" + mSodiumToday + " " + mPotassiumToday + " " + mPotassiumToday);
                         Intent intent = new Intent(context, MainActivity.class);
                         startActivity(intent);
                     }

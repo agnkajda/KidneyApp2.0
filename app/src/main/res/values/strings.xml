@@ -53,6 +53,10 @@
     <string name="pref_sex_male" translatable="false">male</string>
     <string name="pref_sex_female" translatable="false">female</string>
 
+    <string name="pref_fluid_label">Fluid [ml/day]</string>
+    <string name="pref_fluid_key" translatable="false">fluid</string>
+    <string name="pref_fluid_default" translatable="false">0</string>
+
 
     <string name="search_for_food_label">Search</string>
     <string name="search_for_food_key" translatable="false">search</string>
