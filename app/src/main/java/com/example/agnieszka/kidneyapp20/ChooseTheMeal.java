@@ -451,7 +451,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    //TODO TUTAJ MUSIMY UMIESCIC SPRAWDZANIE, CZY PROGI NIE SĄ PRZEKROCZONE
                     if (mPotassiumToday >= getPotassiumTreshold(context) || mSodiumToday >= getSodiumTreshold(context)
                             || mPhosphorusToday >= getPhosphorusTreshold(context))
                     {
@@ -462,13 +461,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                         Log.d("LOG_TAG", "Próg potasu: " + String.valueOf(getPotassiumTreshold(context)));
                         Log.d("LOG_TAG", "Wartosc fosforu: " + String.valueOf(mPhosphorusToday));
                         Log.d("LOG_TAG", "Próg fosforu: " + String.valueOf(getPhosphorusTreshold(context)));
-
-                        if (false){
-                            long id = Long.parseLong(mInsertedToJournal.getPathSegments().get(1));
-                            Log.d("LOG_TAG", "ID: " + String.valueOf(id));
-                            KidneyDbHelper dbHelper = new KidneyDbHelper(context);
-                            dbHelper.deletingValueFromJournal(id);
-                        }
 
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
                         builder1.setMessage("It exceeds the threshold! Do you still want to add this meal?");
@@ -488,7 +480,18 @@ public class ChooseTheMeal extends AppCompatActivity {
                                 "No",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //NIE OK - USUNAC PRODUKT - pobrac id dla journal, a dla values odjac
+                                        long mealId = Long.parseLong(mInsertedToJournal.getPathSegments().get(1));
+                                        Log.d("LOG_TAG", "ID: " + String.valueOf(mealId) + " " + mDateTime);
+                                        KidneyDbHelper dbHelper = new KidneyDbHelper(context);
+                                        dbHelper.deletingValueFromJournal(mealId);
+                                        dbHelper.deletingValueFromValues(mKcal, KidneyContract.ValuesEntry.COLUMN_KCAL, mDateTime);
+                                        dbHelper.deletingValueFromValues(mCarbon, KidneyContract.ValuesEntry.COLUMN_CARBON, mDateTime);
+                                        dbHelper.deletingValueFromValues(mFat, KidneyContract.ValuesEntry.COLUMN_FAT, mDateTime);
+                                        dbHelper.deletingValueFromValues(mProtein, KidneyContract.ValuesEntry.COLUMN_PROTEIN, mDateTime);
+                                        dbHelper.deletingValueFromValues(mPhosphorus, KidneyContract.ValuesEntry.COLUMN_PHOSPHORUS, mDateTime);
+                                        dbHelper.deletingValueFromValues(mSodium, KidneyContract.ValuesEntry.COLUMN_SODIUM, mDateTime);
+                                        dbHelper.deletingValueFromValues(mPotassium, KidneyContract.ValuesEntry.COLUMN_POTASSIUM, mDateTime);
+                                        dbHelper.deletingValueFromValues(mFluid, KidneyContract.ValuesEntry.COLUMN_FLUID, mDateTime);
                                         Intent intent = new Intent(context, AddingFood.class);
                                         startActivity(intent);
                                         dialog.cancel();
