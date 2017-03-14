@@ -21,8 +21,6 @@ public class SettingsActivity extends PreferenceActivity
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
             // updated when the preference changes.
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_weight_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_height_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_sex_key)));

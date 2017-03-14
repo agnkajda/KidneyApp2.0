@@ -66,10 +66,12 @@ public class DetailActivity2 extends ActionBarActivity {
         private static final String LOG_TAG = DetailFragment2.class.getSimpleName();
 
         private String mForecast;
+        private String mForecast2;
         private String mAmount;
         private String mUriStr;
         TextView uriTextView;
         TextView detailTextView;
+        TextView detailTextView2;
         double amount;
         double kcal;
         double carbon;
@@ -198,6 +200,7 @@ public class DetailActivity2 extends ActionBarActivity {
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             Log.v(LOG_TAG, "In onLoadFinished");
             detailTextView = (TextView)getView().findViewById(R.id.detail_text);
+            detailTextView2 = (TextView)getView().findViewById(R.id.detail_text2);
 
             if (!data.moveToFirst()) { return; }
 
@@ -221,7 +224,11 @@ public class DetailActivity2 extends ActionBarActivity {
                     " Phosphorus: %s mg\n " + "Sodium: %s mg\n Potassium: %s mg\n Fluid: %s mg", dateString,
                     foodName, amount, kcal, carbon, fat, protein, phosphorus, sodium, potassium, fluid);
 
+            mForecast2 = String.format(" %s - %s\n ", dateString,
+                    foodName);
+
             detailTextView.setText(mForecast);
+            detailTextView2.setText(mForecast2);
         }
 
         @Override

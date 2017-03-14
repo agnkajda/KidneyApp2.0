@@ -63,7 +63,7 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main_new, container, false);
 
         addFood = (Button) rootView.findViewById(R.id.add_food_button);
         View.OnClickListener clicking = new View.OnClickListener() {
@@ -76,16 +76,6 @@ public class MainActivityFragment extends Fragment {
 
         };
         addFood.setOnClickListener(clicking);
-
-        button =(Button)rootView.findViewById(R.id.sql_button);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent dbmanager = new Intent(getActivity(),AndroidDatabaseManager.class);
-                startActivity(dbmanager);
-            }
-        });
 
         deleteAll = (Button) rootView.findViewById(R.id.delete_all_button);
         View.OnClickListener clickingToDelete = new View.OnClickListener() {
