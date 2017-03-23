@@ -6,6 +6,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
@@ -53,7 +54,13 @@ public class KidneyAdapter extends CursorAdapter {
         // our view is pretty simple here --- just a text view
         // we'll keep the UI functional with a simple (and slow!) binding.
 
-        TextView tv = (TextView)view;
-        tv.setText(convertCursorRowToUXFormat(cursor));
+        //TextView tv = (TextView)view;
+        //tv.setText(convertCursorRowToUXFormat(cursor));
+
+        TextView descriptionView = (TextView) view.findViewById(R.id.list_item_kidney_adapter_textview);
+        descriptionView.setText(convertCursorRowToUXFormat(cursor));
+
+        ImageView iconView = (ImageView) view.findViewById(R.id.list_item_icon);
+        iconView.setImageResource(R.drawable.calendar30);
     }
 }

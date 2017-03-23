@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 
@@ -40,8 +41,8 @@ public class KidneyJournalAdapter extends CursorAdapter {
                 "\nPotassium: " + cursor.getDouble(idx_potassium) +
                 "\nFluid: " + cursor.getDouble(idx_fluid);*/
 
-        return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
-                "\n\nFood name: " + cursor.getString(idx_food_name) +
+        return //"Date: " + Utility.formatDate(cursor.getLong(idx_date)) + "\n" +
+                cursor.getString(idx_food_name) +
                 "\n" + "Amount: " + cursor.getDouble(idx_amount) + " g";
         }
 
@@ -56,8 +57,19 @@ public class KidneyJournalAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         // our view is pretty simple here --- just a text view
         // we'll keep the UI functional with a simple (and slow!) binding.
-        TextView tv = (TextView)view;
-        tv.setText(convertCursorRowToUXFormat(cursor));
+
+        TextView descriptionView = (TextView) view.findViewById(R.id.list_item_kidney_journal_adapter_textview);
+        descriptionView.setText(convertCursorRowToUXFormat(cursor));
+
+        long dateInMillis = cursor.getLong(MainActivityFragment.COL_JOURNAL_DATE);
+        TextView dateView = (TextView) view.findViewById(R.id.list_item_kidney_journal_adapter_textview2);
+        dateView.setText("Food name:");
+
+        //TextView tv = (TextView)view;
+        //tv.setText(convertCursorRowToUXFormat(cursor));
+
+        ImageView iconView = (ImageView) view.findViewById(R.id.list_item_icon);
+        iconView.setImageResource(R.drawable.sztucce);
     }
 
 }
