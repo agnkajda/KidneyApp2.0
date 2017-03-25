@@ -11,6 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/kidney_light_blue"
+        android:padding="0dip" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/kidney_light_blue"
         android:padding="10dip" >
 
         <Button
@@ -18,7 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/add_food_button"
-            android:backgroundTint="@color/kidney_light_blue"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:backgroundTint="@color/kidney_red"
             android:layout_marginTop="25dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -29,15 +39,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/delete_all_button"
-            android:backgroundTint="@color/kidney_light_blue"
+            android:textSize="22sp"
+            android:backgroundTint="@color/kidney_red"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="25dp"/>
 
-
+</LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
 
         <ListView
             style="@style/ForecastListStyle"
@@ -46,7 +58,7 @@
             android:layout_height="wrap_content"
             android:divider="@color/kidney_dark_blue"
             android:dividerHeight="1dip"
-            android:layout_weight="3"/>
+            android:layout_weight="4"/>
 
         <ListView
             style="@style/ForecastListStyle"
@@ -55,11 +67,10 @@
             android:layout_height="wrap_content"
             android:divider="@color/kidney_dark_blue"
             android:dividerHeight="1dip"
-            android:layout_marginBottom="25dp"
-            android:layout_weight="2"/>
+            android:layout_weight="3"/>
+
 
         </LinearLayout>
-
 
     </LinearLayout>
 

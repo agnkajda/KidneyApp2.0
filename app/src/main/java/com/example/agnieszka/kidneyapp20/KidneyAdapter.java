@@ -31,8 +31,7 @@ public class KidneyAdapter extends CursorAdapter {
         int idx_fluid = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_FLUID);
 
 
-        return "Date: " + Utility.formatDate(cursor.getLong(idx_date)) +
-                "\n\nKcal: " + cursor.getString(idx_kcal) +
+        return "Kcal: " + cursor.getString(idx_kcal) +
                 "\nCarbon: " + cursor.getDouble(idx_carbon) +
                 "\nFat: " + cursor.getDouble(idx_fat) +
                 "\nProtein: " + cursor.getDouble(idx_protein) +
@@ -59,6 +58,10 @@ public class KidneyAdapter extends CursorAdapter {
 
         TextView descriptionView = (TextView) view.findViewById(R.id.list_item_kidney_adapter_textview);
         descriptionView.setText(convertCursorRowToUXFormat(cursor));
+
+        long dateInMillis = cursor.getLong(MainActivityFragment.COL_JOURNAL_DATE);
+        TextView dateView = (TextView) view.findViewById(R.id.list_item_kidney_adapter_textview2);
+        dateView.setText("Date: "  + Utility.formatDate(dateInMillis));
 
         ImageView iconView = (ImageView) view.findViewById(R.id.list_item_icon);
         iconView.setImageResource(R.drawable.calendar30);

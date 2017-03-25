@@ -2,33 +2,36 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:orientation="horizontal"
-    android:padding="16dp">
-
+    android:orientation="vertical"
+    android:padding="14dp">
 
     <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingLeft="16dp">
+        android:orientation="horizontal"
+        android:gravity="left"
+        android:paddingLeft="0dp">
 
 
         <ImageView
             android:id="@+id/list_item_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/calendar30"/>
+            android:gravity="center"
+            android:src="@drawable/calendar30" />
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:fontFamily="sans-serif-condensed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?android:attr/listPreferredItemHeight"
-            android:gravity="center_vertical"
-            android:id="@+id/list_item_kidney_adapter_textview2" />
+            android:gravity="center"
+            android:id="@+id/list_item_kidney_adapter_textview2"
+            android:paddingTop="0dp"/>
 
     </LinearLayout>
 
@@ -37,8 +40,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?android:attr/listPreferredItemHeight"
             android:gravity="center_vertical"
+            android:layout_below="@id/list_item_kidney_adapter_textview2"
             android:id="@+id/list_item_kidney_adapter_textview" />
-
-
 
 </LinearLayout>
