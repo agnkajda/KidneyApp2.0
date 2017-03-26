@@ -63,7 +63,7 @@ public class KidneyJournalAdapter extends CursorAdapter {
 
         long dateInMillis = cursor.getLong(MainActivityFragment.COL_JOURNAL_DATE);
         TextView dateView = (TextView) view.findViewById(R.id.list_item_kidney_journal_adapter_textview2);
-        dateView.setText("  Food name:");
+        dateView.setText("  Product name:");
 
         //TextView tv = (TextView)view;
         //tv.setText(convertCursorRowToUXFormat(cursor));

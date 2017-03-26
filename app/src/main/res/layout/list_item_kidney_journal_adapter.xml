@@ -23,7 +23,6 @@
         android:gravity="center_vertical"
         android:src="@drawable/sztucce"/>
 
-
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +33,6 @@
 
         </LinearLayout>
 
-
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -42,6 +40,5 @@
     android:gravity="center_vertical"
     android:layout_below="@id/list_item_kidney_journal_adapter_textview2"
     android:id="@+id/list_item_kidney_journal_adapter_textview" />
-
 
 </LinearLayout>

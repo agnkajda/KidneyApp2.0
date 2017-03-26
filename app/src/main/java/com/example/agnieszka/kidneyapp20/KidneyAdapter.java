@@ -61,7 +61,7 @@ public class KidneyAdapter extends CursorAdapter {
 
         long dateInMillis = cursor.getLong(MainActivityFragment.COL_JOURNAL_DATE);
         TextView dateView = (TextView) view.findViewById(R.id.list_item_kidney_adapter_textview2);
-        dateView.setText("Date: "  + Utility.formatDate(dateInMillis));
+        dateView.setText("Date:\n"  + Utility.formatDate(dateInMillis));
 
         ImageView iconView = (ImageView) view.findViewById(R.id.list_item_icon);
         iconView.setImageResource(R.drawable.calendar30);

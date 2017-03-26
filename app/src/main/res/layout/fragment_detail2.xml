@@ -9,19 +9,53 @@
         android:orientation="vertical"
         android:padding="10dip" >
 
+        <ImageView
+            android:id="@+id/list_item_date_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:src="@drawable/calendar50"/>
+
         <TextView android:layout_width="wrap_content"
-        android:id="@+id/detail_text"
-        android:layout_height="wrap_content"
-        />
+            android:id="@+id/detail_date"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <TextView android:layout_width="wrap_content"
+            android:id="@+id/detail_food_name"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Product name:"
+            />
 
         <TextView android:layout_width="wrap_content"
             android:id="@+id/detail_text2"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+
+        <TextView android:layout_width="wrap_content"
+            android:id="@+id/detail_amount"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <ImageView
+            android:id="@+id/list_item_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:src="@drawable/sztucce50"/>
+
+        <TextView android:layout_width="wrap_content"
+            android:id="@+id/detail_text"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
         <Button
-            android:text="Delete the meal"
+            android:text="Delete this meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/delete_button"

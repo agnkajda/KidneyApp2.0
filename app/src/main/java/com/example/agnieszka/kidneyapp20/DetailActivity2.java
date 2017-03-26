@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -68,8 +69,12 @@ public class DetailActivity2 extends ActionBarActivity {
         private String mForecast;
         private String mForecast2;
         private String mAmount;
+        private String mDate;
         private String mUriStr;
         TextView uriTextView;
+        TextView uriDate;
+        TextView detailAmount;
+        TextView detailDate;
         TextView detailTextView;
         TextView detailTextView2;
         double amount;
@@ -128,10 +133,7 @@ public class DetailActivity2 extends ActionBarActivity {
             if (intent != null) {
                 mUriStr = intent.getDataString();
                             }
-            if (null != mUriStr) {
-                uriTextView = (TextView)rootView.findViewById(R.id.uri_text);
-                uriTextView.setText(mUriStr);
-            }
+
             final Uri uri = Uri.parse(mUriStr);
             deleteFood = (Button) rootView.findViewById(R.id.delete_button);
             View.OnClickListener clickingToDelete = new View.OnClickListener() {
@@ -199,8 +201,14 @@ public class DetailActivity2 extends ActionBarActivity {
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             Log.v(LOG_TAG, "In onLoadFinished");
+            detailDate = (TextView)getView().findViewById(R.id.detail_date);
             detailTextView = (TextView)getView().findViewById(R.id.detail_text);
             detailTextView2 = (TextView)getView().findViewById(R.id.detail_text2);
+            detailAmount = (TextView)getView().findViewById(R.id.detail_amount);
+            ImageView iconView = (ImageView)getView().findViewById(R.id.list_item_icon);
+            iconView.setImageResource(R.drawable.sztucce50);
+            ImageView iconDateView = (ImageView)getView().findViewById(R.id.list_item_date_icon);
+            iconDateView.setImageResource(R.drawable.calendar50);
 
             if (!data.moveToFirst()) { return; }
 
@@ -220,15 +228,23 @@ public class DetailActivity2 extends ActionBarActivity {
             potassium = data.getDouble(COL_JOURNAL_POTASSIUM);
             fluid = data.getDouble(COL_JOURNAL_FLUID);
 
-            mForecast = String.format(" %s - %s \n\n Amount: %s g\n Kcal: %s kcal\n Carbon: %s g\n Fat: %s g\n Protein: %s g\n" +
-                    " Phosphorus: %s mg\n " + "Sodium: %s mg\n Potassium: %s mg\n Fluid: %s mg", dateString,
-                    foodName, amount, kcal, carbon, fat, protein, phosphorus, sodium, potassium, fluid);
+            mForecast = String.format("Food values:\n Kcal: %s kcal\n Carbon: %s g\n Fat: %s g\n Protein: %s g\n" +
+                    " Phosphorus: %s mg\n " + "Sodium: %s mg\n Potassium: %s mg\n Fluid: %s mg",
+                    kcal, carbon, fat, protein, phosphorus, sodium, potassium, fluid);
 
-            mForecast2 = String.format(" %s - %s\n ", dateString,
+            mForecast2 = String.format("%s",
                     foodName);
 
+            mAmount = String.format("Amount: %s g", amount);
+
+            mDate = String.format("Date: %s", dateString);
+
+            detailDate.setText(mDate);
             detailTextView.setText(mForecast);
             detailTextView2.setText(mForecast2);
+            detailAmount.setText(mAmount);
+
+
         }
 
         @Override
