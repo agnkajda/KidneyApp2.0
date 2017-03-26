@@ -65,7 +65,7 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main_new, container, false);
 
-        addFood = (Button) rootView.findViewById(R.id.add_food_button);
+       addFood = (Button) rootView.findViewById(R.id.add_food_button);
         View.OnClickListener clicking = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,8 +133,10 @@ public class MainActivityFragment extends Fragment {
         listViewJournal = (ListView) rootView.findViewById(R.id.listview_journal);
         listViewJournal.setAdapter(mKidneyJournalAdapter);
 
-        ListUtils.setDynamicHeight(listView);
-        ListUtils.setDynamicHeight(listViewJournal);
+        //ListUtils.setDynamicHeight(listView);
+        //ListUtils.setDynamicHeight(listViewJournal);
+        //getTotalHeightofListView (listView);
+        //getTotalHeightofListView(listViewJournal);
 
         listViewJournal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -185,6 +187,33 @@ public class MainActivityFragment extends Fragment {
             mListView.setLayoutParams(params);
             mListView.requestLayout();
         }
+    }
+
+    public static void getTotalHeightofListView(ListView listView) {
+
+        ListAdapter mAdapter = listView.getAdapter();
+
+        int totalHeight = 0;
+
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            View mView = mAdapter.getView(i, null, listView);
+
+            mView.measure(
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+            totalHeight += mView.getMeasuredHeight();
+            //Log.w("HEIGHT" + i, String.valueOf(totalHeight));
+
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight
+                + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
     }
 
     @Override
