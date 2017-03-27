@@ -61,7 +61,8 @@ public class KidneyContract {
         }
 
         public static Uri buildJournalWithDate(long date) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(normalizeDate(date))).build();
+            long normalizedDate = normalizeDate(date);
+            return CONTENT_URI.buildUpon().appendPath(Long.toString(normalizedDate)).build();
         }
 
         public static Uri buildJournalWithDateAndId(long date, long id) {

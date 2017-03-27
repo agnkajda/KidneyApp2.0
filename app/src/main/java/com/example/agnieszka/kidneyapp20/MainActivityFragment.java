@@ -26,6 +26,7 @@ public class MainActivityFragment extends Fragment {
     Button deleteAll;
     Context context;
     Button button;
+    Button test;
     private ListView listViewJournal;
     private int mPosition = listViewJournal.INVALID_POSITION;
     private KidneyAdapter mKidneyAdapter;
@@ -77,7 +78,19 @@ public class MainActivityFragment extends Fragment {
         };
         addFood.setOnClickListener(clicking);
 
-        deleteAll = (Button) rootView.findViewById(R.id.delete_all_button);
+        test = (Button) rootView.findViewById(R.id.test_button);
+        View.OnClickListener clicking2 = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context = getActivity().getApplicationContext();
+                Intent intent = new Intent (context, JournalByDate.class);
+                startActivity(intent);
+            }
+
+        };
+        test.setOnClickListener(clicking2);
+
+       /* deleteAll = (Button) rootView.findViewById(R.id.delete_all_button);
         View.OnClickListener clickingToDelete = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,8 +106,7 @@ public class MainActivityFragment extends Fragment {
 
         };
         deleteAll.setOnClickListener(clickingToDelete);
-
-
+*/
 
         // Sort order:  Ascending, by date.
         String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " DESC";

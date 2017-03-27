@@ -36,8 +36,12 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/ForecastTheme" />
         <activity
-            android:name=".TestActivity"
-            android:parentActivityName=".AddingFood"
+        android:name=".TestActivity"
+        android:parentActivityName=".AddingFood"
+        android:theme="@style/ForecastTheme" />
+        <activity
+            android:name=".JournalByDate"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/ForecastTheme" />
         <activity
             android:name=".DetailActivity"

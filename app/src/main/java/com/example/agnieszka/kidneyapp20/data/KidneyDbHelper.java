@@ -74,6 +74,20 @@ public class KidneyDbHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean FindTodaysProducts (long date) {
+/* nieskończone */
+        SQLiteDatabase db = this.getReadableDatabase();
+        String Query = "Select * from " +  KidneyContract.JournalEntry.TABLE_NAME + " where " +
+                KidneyContract.ValuesEntry.COLUMN_DATE + " = " + date;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
     public void updatingValue (double value, String columnName, long date){
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL("UPDATE " +  ValuesEntry.TABLE_NAME + " SET " +
