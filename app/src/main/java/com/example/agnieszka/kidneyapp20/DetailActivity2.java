@@ -228,7 +228,7 @@ public class DetailActivity2 extends ActionBarActivity {
             potassium = data.getDouble(COL_JOURNAL_POTASSIUM);
             fluid = data.getDouble(COL_JOURNAL_FLUID);
 
-            mForecast = String.format("Food values:\n Kcal: %s kcal\n Carbon: %s g\n Fat: %s g\n Protein: %s g\n" +
+            mForecast = String.format("Kcal: %s kcal\n Carbon: %s g\n Fat: %s g\n Protein: %s g\n" +
                     " Phosphorus: %s mg\n " + "Sodium: %s mg\n Potassium: %s mg\n Fluid: %s mg",
                     kcal, carbon, fat, protein, phosphorus, sodium, potassium, fluid);
 
