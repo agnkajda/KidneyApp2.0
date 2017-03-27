@@ -13,6 +13,7 @@
     <string name="action_map">Map Location</string>
     <string name="moje">To jest aplikacja nerkowa, bip bip</string>
     <string name="action_share">Share</string>
+    <string name="myCoolButton">Delete all</string>
 
     <!-- Label for the location preference [CHAR LIMIT=30] -->
     <string name="pref_location_label">Location</string>

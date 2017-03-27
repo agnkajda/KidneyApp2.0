@@ -17,13 +17,6 @@
         android:inputType="text"
         android:singleLine="true" />
 
-    <ListPreference
-        android:title="@string/pref_sex_label"
-        android:key="@string/pref_sex_key"
-        android:defaultValue="@string/pref_sex_female"
-        android:entryValues="@array/pref_sex_values"
-        android:entries="@array/pref_sex_options" />
-
     <EditTextPreference
         android:title="@string/pref_phosphorus_label"
         android:key="@string/pref_phosphorus_key"
@@ -44,5 +37,9 @@
         android:defaultValue="@string/pref_sodium_default"
         android:inputType="text"
         android:singleLine="true" />
+
+    <Preference android:title="Delete all meals"
+        android:key="@string/myCoolButton"
+        android:summary="Click here to erase the history"/>
 
 </PreferenceScreen>
