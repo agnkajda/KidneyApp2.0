@@ -13,6 +13,8 @@ import android.util.Log;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.JournalEntry;
 import com.example.agnieszka.kidneyapp20.data.KidneyContract.ValuesEntry;
 
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+
 public class KidneyDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 4;
@@ -74,25 +76,35 @@ public class KidneyDbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean FindTodaysProducts (long date) {
-/* nieskończone */
-        SQLiteDatabase db = this.getReadableDatabase();
-        String Query = "Select * from " +  KidneyContract.JournalEntry.TABLE_NAME + " where " +
-                KidneyContract.ValuesEntry.COLUMN_DATE + " = " + date;
-        Cursor cursor = db.rawQuery(Query, null);
-        if(cursor.getCount() <= 0){
-            cursor.close();
-            return false;
-        }
-        cursor.close();
-        return true;
-    }
-
     public void updatingValue (double value, String columnName, long date){
         SQLiteDatabase db = this.getReadableDatabase();
-        db.execSQL("UPDATE " +  ValuesEntry.TABLE_NAME + " SET " +
-                columnName + " = " + columnName + " + " + value +
-                " WHERE " + ValuesEntry.COLUMN_DATE + " = " + date );
+        String Query = "Select " + columnName + " from " +  KidneyContract.ValuesEntry.TABLE_NAME + " where " +
+                KidneyContract.ValuesEntry.COLUMN_DATE + " = " + date;
+
+        Log.d("LOG_TAG", "Updating: " + "Select " + columnName + " from " +  KidneyContract.ValuesEntry.TABLE_NAME + " where " +
+                KidneyContract.ValuesEntry.COLUMN_DATE + " = " + date );
+
+        Cursor cursor = db.rawQuery(Query, null);
+        //int idx = cursor.getColumnIndex(KidneyContract.ValuesEntry + columnName);
+        boolean isNotNull = false;
+        if(((cursor != null) && (cursor.getCount() > 0))) {isNotNull = false;}
+        if (isNotNull){
+            Log.d("LOG_TAG", "It is not null" + isNotNull);
+            db.execSQL("UPDATE " + ValuesEntry.TABLE_NAME + " SET " +
+                    columnName + " = " + columnName + " + " + value +
+                    " WHERE " + ValuesEntry.COLUMN_DATE + " = " + date);
+
+        }
+            else{
+            db.execSQL("UPDATE " + ValuesEntry.TABLE_NAME + " SET " +
+                    columnName + " = " + value +
+                    " WHERE " + ValuesEntry.COLUMN_DATE + " = " + date);
+            Log.d("LOG_TAG", "It is null" + isNotNull);
+        }
+        Log.d("LOG_TAG", "Updating: Date: " + date + " Column name: " + columnName + "query: " +
+                "UPDATE " +  ValuesEntry.TABLE_NAME + " SET " +
+                        columnName + " = " + columnName + " + " + value +
+                        " WHERE " + ValuesEntry.COLUMN_DATE + " = " + date );
     }
 
     public void deletingValueFromValues (double value, String columnName, long date){

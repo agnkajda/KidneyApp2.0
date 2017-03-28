@@ -32,7 +32,8 @@ public class KidneyAdapterToday extends CursorAdapter {
         return "Kcal: " + cursor.getString(idx_kcal) +
                 "\nCarbon: " + cursor.getDouble(idx_carbon) +
                 "\nFat: " + cursor.getDouble(idx_fat) +
-                "\nProtein: " + cursor.getDouble(idx_protein);
+                "\nProtein: " + cursor.getDouble(idx_protein) +
+                "\nPhosphous: " + cursor.getDouble(idx_phosphorus);
     }
 
 

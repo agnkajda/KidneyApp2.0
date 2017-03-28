@@ -273,6 +273,7 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                                     case water:
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_FLUID, dateTime);
+                                        Log.d("LOG_TAG","UPDATING VALUE- FLUID: " + value );
                                         Utility.setFluidIntake(context, value);
                                         break;
 
@@ -509,7 +510,7 @@ public class ChooseTheMeal extends AppCompatActivity {
 
                     }
                     else {
-                        Log.d("LOG_TAG", "Progi ok" + mSodiumToday + " " + mPotassiumToday + " " + mPotassiumToday);
+                        Log.d("LOG_TAG", "Progi ok" + mSodiumToday + " " + mPhosphorusToday + " " + mPotassiumToday);
                         Intent intent = new Intent(context, MainActivity.class);
                         startActivity(intent);
                     }

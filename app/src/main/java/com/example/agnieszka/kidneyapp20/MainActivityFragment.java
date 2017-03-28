@@ -123,6 +123,16 @@ public class MainActivityFragment extends Fragment {
         };
         test.setOnClickListener(clicking2);
 
+        Button button =(Button)rootView.findViewById(R.id.yourbuttonid);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent dbmanager = new Intent(getActivity(),AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
+
         dialysis = (Button) rootView.findViewById(R.id.dialysis);
         View.OnClickListener clicking3 = new View.OnClickListener() {
             @Override
