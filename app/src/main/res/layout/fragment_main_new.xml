@@ -49,24 +49,12 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="0dp"/>
 
-                        <Button
-                            android:text="sql"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/yourbuttonid"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:backgroundTint="@color/kidney_red"
-                            android:layout_marginTop="10dp"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginBottom="0dp"/>
 
                         <Button
-                            android:text="test"
+                            android:text="Food Journal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/test_button"
+                            android:id="@+id/food_journal_button"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:backgroundTint="@color/kidney_red"
@@ -101,21 +89,23 @@
                             android:text="Today's summary:"
                             android:textSize="16sp"/>
 
-
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical" android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/white">
+                    android:background="@color/white">
 
-                        <ListView
-                            style="@style/ForecastListStyle"
-                            android:id="@+id/listview_values"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:divider="@color/kidney_dark_blue"
-                            android:dividerHeight="1dip"
-                            android:layout_weight="4"/>
+                            android:textColor="@color/black"
+                            android:fontFamily="sans-serif-condensed"
+                            android:id="@+id/todays_products"
+                            android:text="Today's meals:"
+                            android:textSize="26sp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="0dp"/>
 
                         <ListView
                             style="@style/ForecastListStyle"
@@ -123,12 +113,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:divider="@color/kidney_dark_blue"
-                            android:dividerHeight="1dip"
-                            android:layout_weight="3"/>
-
+                            android:dividerHeight="1dip" />
+               </LinearLayout>
 
                 </LinearLayout>
-
-        </LinearLayout>
 
 </ScrollView>

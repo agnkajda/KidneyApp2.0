@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-condensed"
+        android:id="@+id/food_journal_textview"
+        android:text="Your food journal:"
+        android:textSize="26sp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+
+        <ListView
+            style="@style/ForecastListStyle"
+            android:id="@+id/listview_values"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/kidney_dark_blue"
+            android:dividerHeight="1dip"
+            android:layout_weight="4"/>
+
+        <ListView
+            style="@style/ForecastListStyle"
+            android:id="@+id/listview_journal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/kidney_dark_blue"
+            android:dividerHeight="1dip"
+            android:layout_weight="3"/>
+
+
+    </LinearLayout>
 
 </LinearLayout>

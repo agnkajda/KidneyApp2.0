@@ -110,7 +110,7 @@ public class MainActivityFragment extends Fragment {
 
         };
         addFood.setOnClickListener(clicking);
-
+/*
         test = (Button) rootView.findViewById(R.id.test_button);
         View.OnClickListener clicking2 = new View.OnClickListener() {
             @Override
@@ -122,7 +122,19 @@ public class MainActivityFragment extends Fragment {
 
         };
         test.setOnClickListener(clicking2);
+*/
+        Button foodJournalButton = (Button) rootView.findViewById(R.id.food_journal_button);
+        View.OnClickListener clickingJournal = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context = getActivity().getApplicationContext();
+                Intent intent = new Intent (context, FoodJournal.class);
+                startActivity(intent);
+            }
 
+        };
+        foodJournalButton.setOnClickListener(clickingJournal);
+/*
         Button button =(Button)rootView.findViewById(R.id.yourbuttonid);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -132,17 +144,18 @@ public class MainActivityFragment extends Fragment {
                 startActivity(dbmanager);
             }
         });
-
+*/
         dialysis = (Button) rootView.findViewById(R.id.dialysis);
-        View.OnClickListener clicking3 = new View.OnClickListener() {
+        View.OnClickListener clickingDialysis = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity().getApplicationContext());
-                builder1.setMessage("Have you been dialyzed today?");
-                builder1.setCancelable(true);
+                Log.d("LOG", "I am clicking dialysis button");
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
+                builder2.setMessage("Have you been dialyzed today?");
+                builder2.setCancelable(true);
 
-                builder1.setPositiveButton(
+                builder2.setPositiveButton(
                         "Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -157,20 +170,19 @@ public class MainActivityFragment extends Fragment {
                             }
                         });
 
-                builder1.setNegativeButton(
+                builder2.setNegativeButton(
                         "No",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
                             }
                         });
-
-
-
+                AlertDialog alert11 = builder2.create();
+                alert11.show();
             }
 
         };
-        dialysis.setOnClickListener(clicking3);
+        dialysis.setOnClickListener(clickingDialysis);
 
        /* deleteAll = (Button) rootView.findViewById(R.id.delete_all_button);
         View.OnClickListener clickingToDelete = new View.OnClickListener() {
@@ -213,7 +225,7 @@ public class MainActivityFragment extends Fragment {
         mKidneyAdapter = new KidneyAdapter(getActivity(), cur, 0);
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_values);
-        listView.setAdapter(mKidneyAdapter);
+        //listView.setAdapter(mKidneyAdapter);
 
         Uri valuesForToday = KidneyContract.JournalEntry.buildJournalWithStartDate(System.currentTimeMillis());
         //Uri valuesForToday = KidneyContract.JournalEntry.buildJournalUri(normalizeDate(System.currentTimeMillis()));
@@ -225,7 +237,7 @@ public class MainActivityFragment extends Fragment {
         String sortOrderJournal = KidneyContract.JournalEntry.COLUMN_DATE + " DESC";
 
         Cursor curJournal = getActivity().getContentResolver().query(valuesForToday,
-                null, null, null, sortOrderJournal);
+                JOURNAL_COLUMNS, " date = " + normalizeDate(System.currentTimeMillis()), null, sortOrderJournal);
 
         //curJournal = getValuesByDate(valuesForToday, null, null);
         // sprobowac z funkcja getValuesByDate
@@ -249,7 +261,7 @@ public class MainActivityFragment extends Fragment {
         today.setAdapter(mKidneyAdapterToday);
 
         //ListUtils.setDynamicHeight(listView);
-        //ListUtils.setDynamicHeight(listViewJournal);
+        ListUtils.setDynamicHeight(listViewJournal);
         //getTotalHeightofListView (listView);
         //getTotalHeightofListView(listViewJournal);
 

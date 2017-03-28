@@ -45,6 +45,19 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="25dp"/>
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/todays_products"
+            android:text="Today's products:"
+            android:textSize="26sp"/>
+
         <ListView
             style="@style/ForecastListStyle"
             android:id="@+id/listview_values"
@@ -68,7 +81,7 @@
             android:divider="@color/kidney_dark_blue"
             android:dividerHeight="1dip"
             android:layout_marginBottom="25dp"/>
-
+</LinearLayout>
 
     </LinearLayout>
 
