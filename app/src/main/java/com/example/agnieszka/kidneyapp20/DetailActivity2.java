@@ -153,6 +153,8 @@ public class DetailActivity2 extends ActionBarActivity {
                     dbHelper.deletingValueFromValues(potassium, KidneyContract.ValuesEntry.COLUMN_POTASSIUM, date);
                     dbHelper.deletingValueFromValues(fluid, KidneyContract.ValuesEntry.COLUMN_FLUID, date);
 
+                    Utility.setNegativeFluidIntake(context, fluid);
+
                     Intent newIntent = new Intent (context, MainActivity.class);
                     startActivity(newIntent);
                 }

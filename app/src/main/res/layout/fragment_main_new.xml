@@ -23,17 +23,31 @@
                     android:padding="10dip" >
 
                         <Button
-                    android:text="Add the meal"
+                    android:text="Add new meal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_food_button"
                     android:textColor="@color/white"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:backgroundTint="@color/kidney_red"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="10dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="25dp"/>
+                    android:layout_marginBottom="0dp"/>
+
+
+                        <Button
+                            android:text="Dialysis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dialysis"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:backgroundTint="@color/kidney_red"
+                            android:layout_marginTop="10dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginBottom="0dp"/>
 
                         <Button
                             android:text="test"
@@ -41,12 +55,12 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/test_button"
                             android:textColor="@color/white"
-                            android:textSize="22sp"
+                            android:textSize="20sp"
                             android:backgroundTint="@color/kidney_red"
-                            android:layout_marginTop="25dp"
+                            android:layout_marginTop="5dp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginBottom="25dp"/>
+                            android:layout_marginBottom="15dp"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -56,6 +70,23 @@
                             android:id="@+id/todays_summary"
                             android:text="Today's summary:"
                             android:textSize="26sp"/>
+
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-condensed"
+                            android:id="@+id/today"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif-condensed"
+                            android:id="@+id/fluid_intake"
+                            android:text="Today's summary:"
+                            android:textSize="16sp"/>
 
 
                 </LinearLayout>

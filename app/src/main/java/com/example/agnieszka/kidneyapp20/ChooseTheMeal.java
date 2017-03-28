@@ -258,9 +258,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                                 value = round(value, 2);
 
                                 switch (nutrientId) {
-                                    case water:
-                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_FLUID, dateTime);
-                                        break;
 
                                     case energy:
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_KCAL, dateTime);
@@ -274,6 +271,11 @@ public class ChooseTheMeal extends AppCompatActivity {
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_FAT, dateTime);
                                         break;
 
+                                    case water:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_FLUID, dateTime);
+                                        Utility.setFluidIntake(context, value);
+                                        break;
+
                                     case protein:
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_PROTEIN, dateTime);
                                         break;
@@ -283,15 +285,17 @@ public class ChooseTheMeal extends AppCompatActivity {
                                         mPhosphorusToday = value;
                                         break;
 
+                                    case potassium:
+                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_POTASSIUM, dateTime);
+                                        mPotassiumToday = value;
+                                        break;
+
                                     case sodium:
                                         dbHelper.updatingValue(value, ValuesEntry.COLUMN_SODIUM, dateTime);
                                         mSodiumToday = value;
                                         break;
 
-                                    case potassium:
-                                        dbHelper.updatingValue(value, ValuesEntry.COLUMN_POTASSIUM, dateTime);
-                                        mPotassiumToday = value;
-                                        break;
+
                                 }
                             }
                         }
@@ -318,6 +322,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                                 switch (nutrientId) {
                                     case water:
                                         kidneyValues.put(ValuesEntry.COLUMN_FLUID, value);
+                                        Utility.setFluidIntake(context, value);
                                         break;
 
                                     case energy:
@@ -492,6 +497,7 @@ public class ChooseTheMeal extends AppCompatActivity {
                                         dbHelper.deletingValueFromValues(mSodium, KidneyContract.ValuesEntry.COLUMN_SODIUM, mDateTime);
                                         dbHelper.deletingValueFromValues(mPotassium, KidneyContract.ValuesEntry.COLUMN_POTASSIUM, mDateTime);
                                         dbHelper.deletingValueFromValues(mFluid, KidneyContract.ValuesEntry.COLUMN_FLUID, mDateTime);
+                                        Utility.setNegativeFluidIntake(context, mFluid);
                                         Intent intent = new Intent(context, AddingFood.class);
                                         startActivity(intent);
                                         dialog.cancel();

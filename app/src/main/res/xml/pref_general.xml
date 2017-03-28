@@ -38,6 +38,27 @@
         android:inputType="text"
         android:singleLine="true" />
 
+    <EditTextPreference
+        android:title="@string/pref_fluid_label"
+        android:key="@string/pref_fluid_key"
+        android:defaultValue="@string/pref_fluid_default"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <EditTextPreference
+        android:title="@string/pref_max_fluid_label"
+        android:key="@string/pref_max_fluid_key"
+        android:defaultValue="@string/pref_max_fluid_default"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <EditTextPreference
+        android:title="@string/pref_dialysis_label"
+        android:key="@string/pref_dialysis_key"
+        android:defaultValue="@string/pref_dialysis_default"
+        android:inputType="text"
+        android:singleLine="true" />
+
     <Preference android:title="Delete all meals"
         android:key="@string/myCoolButton"
         android:summary="Click here to erase the history"/>

@@ -35,15 +35,15 @@
     <string name="pref_height_key" translatable="false">height</string>
     <string name="pref_height_default" translatable="false">170</string>
 
-    <string name="pref_phosphorus_label">Phosphorus [mg/day]</string>
+    <string name="pref_phosphorus_label">Phosphorus limit [mg/day]</string>
     <string name="pref_phosphorus_key" translatable="false">phosphorus</string>
     <string name="pref_phosphorus_default" translatable="false">1</string>
 
-    <string name="pref_potassium_label">Potassium [mg/day]</string>
+    <string name="pref_potassium_label">Potassium limit [mg/day]</string>
     <string name="pref_potassium_key" translatable="false">potassium</string>
     <string name="pref_potassium_default" translatable="false">2</string>
 
-    <string name="pref_sodium_label">Sodium [mg/day]</string>
+    <string name="pref_sodium_label">Sodium limit [mg/day]</string>
     <string name="pref_sodium_key" translatable="false">sodium</string>
     <string name="pref_sodium_default" translatable="false">2</string>
 
@@ -56,7 +56,15 @@
 
     <string name="pref_fluid_label">Fluid [ml/day]</string>
     <string name="pref_fluid_key" translatable="false">fluid</string>
-    <string name="pref_fluid_default" translatable="false">0</string>
+    <string name="pref_fluid_default" translatable="false">1</string>
+
+    <string name="pref_max_fluid_label">Fluid limit [ml/day]</string>
+    <string name="pref_max_fluid_key" translatable="false">fluid limit</string>
+    <string name="pref_max_fluid_default" translatable="false">1500</string>
+
+    <string name="pref_dialysis_label">Dialysis frequency [1/days]</string>
+    <string name="pref_dialysis_key" translatable="false">dialysis</string>
+    <string name="pref_dialysis_default" translatable="false">3</string>
 
 
     <string name="search_for_food_label">Search</string>

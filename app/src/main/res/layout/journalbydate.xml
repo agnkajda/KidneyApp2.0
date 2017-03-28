@@ -12,6 +12,7 @@
         android:text="Today's products:"
         android:textSize="26sp"/>
 
+
     <ListView
         style="@style/ForecastListStyle"
         android:id="@+id/listview_products"

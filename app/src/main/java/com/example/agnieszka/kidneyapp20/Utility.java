@@ -8,6 +8,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.agnieszka.kidneyapp20.ChooseTheMeal.context;
+
 public class Utility {
 
     //tutaj liczymy BMI
@@ -49,6 +51,56 @@ public class Utility {
         return prefs.getString(context.getString(R.string.pref_sodium_key),
                 context.getString(R.string.pref_sodium_default));
     }
+
+    public static void setFluidIntake(Context context, double newValue) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_fluid_key),
+                context.getString(R.string.pref_fluid_default));
+        double oldValue = Double.parseDouble(string);
+        newValue = newValue + oldValue;
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("fluid", Double.toString(newValue));
+        editor.commit();
+    }
+
+    public static void setNegativeFluidIntake(Context context, double newValue) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_fluid_key),
+                context.getString(R.string.pref_fluid_default));
+        double oldValue = Double.parseDouble(string);
+
+        if (newValue > oldValue){
+            oldValue = 0;
+        }
+        else{
+            oldValue = oldValue - newValue;
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("fluid", Double.toString(oldValue));
+        editor.commit();
+    }
+
+    public static double getFluidIntake(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_fluid_key),
+                context.getString(R.string.pref_fluid_default));
+        return Double.parseDouble(string);
+    }
+
+    public static double getFluidLimit(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_max_fluid_key),
+                context.getString(R.string.pref_max_fluid_default));
+        return Double.parseDouble(string);
+    }
+
+    public static double getDialysis(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = prefs.getString(context.getString(R.string.pref_dialysis_key),
+                context.getString(R.string.pref_dialysis_default));
+        return Double.parseDouble(string);
+    }
+
 
     public static double getSodiumTreshold(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

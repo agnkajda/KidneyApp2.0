@@ -1,23 +1,32 @@
 package com.example.agnieszka.kidneyapp20;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListAdapter;
 import android.view.View.MeasureSpec;
 
 import com.example.agnieszka.kidneyapp20.data.KidneyContract;
 
+import static com.example.agnieszka.kidneyapp20.ChooseTheMeal.context;
+import static com.example.agnieszka.kidneyapp20.Utility.getFluidIntake;
 import static com.example.agnieszka.kidneyapp20.data.KidneyContract.normalizeDate;
 
 public class MainActivityFragment extends Fragment {
@@ -27,10 +36,14 @@ public class MainActivityFragment extends Fragment {
     Context context;
     Button button;
     Button test;
+    Button dialysis;
+    ListView today;
+    TextView fluidIntake;
     private ListView listViewJournal;
     private int mPosition = listViewJournal.INVALID_POSITION;
     private KidneyAdapter mKidneyAdapter;
     private KidneyJournalAdapter mKidneyJournalAdapter;
+    private KidneyAdapterToday mKidneyAdapterToday;
 
     public MainActivityFragment() {
     }
@@ -48,6 +61,26 @@ public class MainActivityFragment extends Fragment {
             KidneyContract.JournalEntry.COLUMN_AMOUNT,
     };
 
+    private static final String[] VALUES_COLUMNS = {
+            // In this case the id needs to be fully qualified with a table name, since
+            // the content provider joins the location & weather tables in the background
+            // (both have an _id column)
+            // On the one hand, that's annoying.  On the other, you can search the weather table
+            // using the location set by the user, which is only in the Location table.
+            // So the convenience is worth it.
+            KidneyContract.ValuesEntry.TABLE_NAME + "." + KidneyContract.ValuesEntry._ID,
+            KidneyContract.ValuesEntry.COLUMN_DATE,
+            KidneyContract.ValuesEntry.COLUMN_KCAL,
+            KidneyContract.ValuesEntry.COLUMN_CARBON,
+            KidneyContract.ValuesEntry.COLUMN_FAT,
+            KidneyContract.ValuesEntry.COLUMN_PROTEIN,
+            KidneyContract.ValuesEntry.COLUMN_PHOSPHORUS,
+            KidneyContract.ValuesEntry.COLUMN_SODIUM ,
+            KidneyContract.ValuesEntry.COLUMN_POTASSIUM,
+            KidneyContract.ValuesEntry.COLUMN_FLUID,
+            KidneyContract.ValuesEntry.COLUMN_DIALYZED,
+    };
+
     static final int COL_JOURNAL_ID = 0;
     static final int COL_JOURNAL_DATE = 1;
     static final int COL_JOURNAL_FOOD_NAME = 2;
@@ -61,7 +94,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main_new, container, false);
@@ -90,6 +123,45 @@ public class MainActivityFragment extends Fragment {
         };
         test.setOnClickListener(clicking2);
 
+        dialysis = (Button) rootView.findViewById(R.id.dialysis);
+        View.OnClickListener clicking3 = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity().getApplicationContext());
+                builder1.setMessage("Have you been dialyzed today?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                context = getActivity().getApplicationContext();
+                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("fluid", "0");
+                                editor.commit();
+                                Intent intent = new Intent (context, MainActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+
+
+
+            }
+
+        };
+        dialysis.setOnClickListener(clicking3);
+
        /* deleteAll = (Button) rootView.findViewById(R.id.delete_all_button);
         View.OnClickListener clickingToDelete = new View.OnClickListener() {
             @Override
@@ -107,6 +179,14 @@ public class MainActivityFragment extends Fragment {
         };
         deleteAll.setOnClickListener(clickingToDelete);
 */
+
+        double mIntake =Utility.getFluidIntake(getActivity().getApplicationContext());
+        double maxIntake = Utility.getFluidLimit(getActivity().getApplicationContext())
+                * Utility.getDialysis(getActivity().getApplicationContext());
+
+        fluidIntake = (TextView) rootView.findViewById(R.id.fluid_intake);
+        fluidIntake.setText("Fluid intake after last dialysis: " + mIntake  + "/" + maxIntake);
+
 
         // Sort order:  Ascending, by date.
         String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " DESC";
@@ -144,6 +224,19 @@ public class MainActivityFragment extends Fragment {
 
         listViewJournal = (ListView) rootView.findViewById(R.id.listview_journal);
         listViewJournal.setAdapter(mKidneyJournalAdapter);
+
+        //TODAYS VALUES
+
+        long currentTime = KidneyContract.normalizeDate(System.currentTimeMillis());
+
+        Cursor curTodaysValues = getActivity().getContentResolver().query(foodJournal,
+                VALUES_COLUMNS, " date = " + currentTime, null, sortOrderJournal);
+
+
+        mKidneyAdapterToday = new KidneyAdapterToday(getActivity(), curTodaysValues, 0);
+
+        today = (ListView) rootView.findViewById(R.id.today);
+        today.setAdapter(mKidneyAdapterToday);
 
         //ListUtils.setDynamicHeight(listView);
         //ListUtils.setDynamicHeight(listViewJournal);

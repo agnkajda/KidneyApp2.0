@@ -3,6 +3,7 @@ package com.example.agnieszka.kidneyapp20;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -39,9 +40,9 @@ public class SettingsActivity extends PreferenceActivity
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_phosphorus_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_potassium_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_sodium_key)));
-
-
-
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_fluid_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_max_fluid_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_dialysis_key)));
 
 
         /*ListView v = getListView();
@@ -82,6 +83,10 @@ public class SettingsActivity extends PreferenceActivity
                                 rowsDeleted = context.getContentResolver().delete(uri, null, null);
                                 uri = KidneyContract.JournalEntry.CONTENT_URI;
                                 rowsDeleted = context.getContentResolver().delete(uri, null, null);
+                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("fluid", "0");
+                                editor.commit();
                                 Intent intent = new Intent (context, MainActivity.class);
                                 startActivity(intent);
                                 dialog.cancel();
