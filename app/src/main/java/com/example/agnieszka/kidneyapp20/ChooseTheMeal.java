@@ -3,7 +3,6 @@ package com.example.agnieszka.kidneyapp20;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -97,9 +96,7 @@ public class ChooseTheMeal extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -132,9 +129,6 @@ public class ChooseTheMeal extends AppCompatActivity {
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
 
             int id = item.getItemId();
             if (id == R.id.action_refresh) {
@@ -554,7 +548,7 @@ public class ChooseTheMeal extends AppCompatActivity {
 
         public class FetchValuesTask extends AsyncTask<String, Void, String[]> {
 
-            private final String LOG_TAG = TestActivityFragment.FetchTask.class.getSimpleName();
+            private final String LOG_TAG = SearchForMealFragment.FetchTask.class.getSimpleName();
             //można tu walnąć konstruktor i wtedy przenieść do innego pliku tę całą klasę
             private boolean DEBUG = true;
 
@@ -565,8 +559,6 @@ public class ChooseTheMeal extends AppCompatActivity {
                 SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
                 return format.format(date).toString();
             }
-
-            //jakaś funkcja konwertująca, żeby program działał tymczasowo (bo na razie nie powinien działać po zmianach)
 
             String[] convertContentValuesToUXFormat(Vector<ContentValues> cvv) {
                 // return strings to keep UI functional for now

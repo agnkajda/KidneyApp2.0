@@ -87,6 +87,7 @@ public class Utility {
         return Double.parseDouble(string);
     }
 
+
     public static double getFluidLimit(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String string = prefs.getString(context.getString(R.string.pref_max_fluid_key),

@@ -39,6 +39,7 @@ public class MainActivityFragment extends Fragment {
     Button dialysis;
     ListView today;
     TextView fluidIntake;
+    TextView timeLeftButton;
     private ListView listViewJournal;
     private int mPosition = listViewJournal.INVALID_POSITION;
     private KidneyAdapter mKidneyAdapter;
@@ -49,12 +50,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private static final String[] JOURNAL_COLUMNS = {
-            // In this case the id needs to be fully qualified with a table name, since
-            // the content provider joins the location & weather tables in the background
-            // (both have an _id column)
-            // On the one hand, that's annoying.  On the other, you can search the weather table
-            // using the location set by the user, which is only in the Location table.
-            // So the convenience is worth it.
+
             KidneyContract.JournalEntry.TABLE_NAME + "." + KidneyContract.JournalEntry._ID,
             KidneyContract.JournalEntry.COLUMN_DATE,
             KidneyContract.JournalEntry.COLUMN_FOOD_NAME,
@@ -62,12 +58,7 @@ public class MainActivityFragment extends Fragment {
     };
 
     private static final String[] VALUES_COLUMNS = {
-            // In this case the id needs to be fully qualified with a table name, since
-            // the content provider joins the location & weather tables in the background
-            // (both have an _id column)
-            // On the one hand, that's annoying.  On the other, you can search the weather table
-            // using the location set by the user, which is only in the Location table.
-            // So the convenience is worth it.
+
             KidneyContract.ValuesEntry.TABLE_NAME + "." + KidneyContract.ValuesEntry._ID,
             KidneyContract.ValuesEntry.COLUMN_DATE,
             KidneyContract.ValuesEntry.COLUMN_KCAL,
@@ -83,8 +74,6 @@ public class MainActivityFragment extends Fragment {
 
     static final int COL_JOURNAL_ID = 0;
     static final int COL_JOURNAL_DATE = 1;
-    static final int COL_JOURNAL_FOOD_NAME = 2;
-    static final int COL_JOURNAL_AMOUNT = 3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,19 +99,7 @@ public class MainActivityFragment extends Fragment {
 
         };
         addFood.setOnClickListener(clicking);
-/*
-        test = (Button) rootView.findViewById(R.id.test_button);
-        View.OnClickListener clicking2 = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context = getActivity().getApplicationContext();
-                Intent intent = new Intent (context, JournalByDate.class);
-                startActivity(intent);
-            }
 
-        };
-        test.setOnClickListener(clicking2);
-*/
         Button foodJournalButton = (Button) rootView.findViewById(R.id.food_journal_button);
         View.OnClickListener clickingJournal = new View.OnClickListener() {
             @Override
@@ -184,31 +161,20 @@ public class MainActivityFragment extends Fragment {
         };
         dialysis.setOnClickListener(clickingDialysis);
 
-       /* deleteAll = (Button) rootView.findViewById(R.id.delete_all_button);
-        View.OnClickListener clickingToDelete = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context = getActivity().getApplicationContext();
-                Uri uri = KidneyContract.ValuesEntry.CONTENT_URI;
-                int rowsDeleted;
-                rowsDeleted = context.getContentResolver().delete(uri, null, null);
-                uri = KidneyContract.JournalEntry.CONTENT_URI;
-                rowsDeleted = context.getContentResolver().delete(uri, null, null);
-                Intent intent = new Intent (context, MainActivity.class);
-                startActivity(intent);
-            }
-
-        };
-        deleteAll.setOnClickListener(clickingToDelete);
-*/
-
         double mIntake =Utility.getFluidIntake(getActivity().getApplicationContext());
         double maxIntake = Utility.getFluidLimit(getActivity().getApplicationContext())
                 * Utility.getDialysis(getActivity().getApplicationContext());
+        double dialysisTime =Utility.getDialysis(getActivity().getApplicationContext());
 
+        double timeLeftD = (maxIntake - mIntake)/Utility.getFluidLimit(getActivity().getApplicationContext());
+        int timeLeft = (int)timeLeftD;
+
+        Log.d("LOG", "time left double: " + timeLeftD);
         fluidIntake = (TextView) rootView.findViewById(R.id.fluid_intake);
         fluidIntake.setText("Fluid intake after last dialysis: " + mIntake  + "/" + maxIntake);
 
+        timeLeftButton = (TextView) rootView.findViewById(R.id.time_left);
+        timeLeftButton.setText("Days left to dialysis: " + timeLeft);
 
         // Sort order:  Ascending, by date.
         String sortOrder = KidneyContract.ValuesEntry.COLUMN_DATE + " DESC";
@@ -225,10 +191,8 @@ public class MainActivityFragment extends Fragment {
         mKidneyAdapter = new KidneyAdapter(getActivity(), cur, 0);
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_values);
-        //listView.setAdapter(mKidneyAdapter);
 
         Uri valuesForToday = KidneyContract.JournalEntry.buildJournalWithStartDate(System.currentTimeMillis());
-        //Uri valuesForToday = KidneyContract.JournalEntry.buildJournalUri(normalizeDate(System.currentTimeMillis()));
 
         String []todayDate = new String []{
                 Long.toString(normalizeDate(System.currentTimeMillis()))
@@ -239,8 +203,6 @@ public class MainActivityFragment extends Fragment {
         Cursor curJournal = getActivity().getContentResolver().query(valuesForToday,
                 JOURNAL_COLUMNS, " date = " + normalizeDate(System.currentTimeMillis()), null, sortOrderJournal);
 
-        //curJournal = getValuesByDate(valuesForToday, null, null);
-        // sprobowac z funkcja getValuesByDate
 
         mKidneyJournalAdapter = new KidneyJournalAdapter(getActivity(), curJournal, 0);
 
@@ -260,7 +222,6 @@ public class MainActivityFragment extends Fragment {
         today = (ListView) rootView.findViewById(R.id.today);
         today.setAdapter(mKidneyAdapterToday);
 
-        //ListUtils.setDynamicHeight(listView);
         ListUtils.setDynamicHeight(listViewJournal);
         //getTotalHeightofListView (listView);
         //getTotalHeightofListView(listViewJournal);
@@ -269,17 +230,7 @@ public class MainActivityFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // CursorAdapter returns a cursor at the correct position for getItem(), or null
-                // if it cannot seek to that position.
-                /*Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                if (cursor != null) {
-                    ((Callback) getActivity())
-                            .onItemSelected(KidneyContract.JournalEntry.buildJournalWithDate(
-                                    cursor.getLong(COL_JOURNAL_DATE)
-                            ));
-                }
-                mPosition = position;*/
-                //testujemy powoli
+
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
                     Intent intent = new Intent(getActivity(), DetailActivity2.class)

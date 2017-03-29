@@ -31,14 +31,14 @@ public class KidneyAdapter extends CursorAdapter {
         int idx_fluid = cursor.getColumnIndex(KidneyContract.ValuesEntry.COLUMN_FLUID);
 
 
-        return "Kcal: " + cursor.getString(idx_kcal) +
-                "\nCarbon: " + cursor.getDouble(idx_carbon) +
-                "\nFat: " + cursor.getDouble(idx_fat) +
-                "\nProtein: " + cursor.getDouble(idx_protein) +
-                "\nPhosphorus: " + cursor.getDouble(idx_phosphorus) +
-                "\nSodium: " + cursor.getDouble(idx_sodium) +
-                "\nPotassium: " + cursor.getDouble(idx_potassium) +
-                "\nFluid: " + cursor.getDouble(idx_fluid);
+        return "Kcal: " + cursor.getString(idx_kcal) + " kcal" +
+                "\nCarbon: " + cursor.getDouble(idx_carbon) + " g" +
+                "\nFat: " + cursor.getDouble(idx_fat) + " g" +
+                "\nProtein: " + cursor.getDouble(idx_protein) + " g" +
+                "\nPhosphorus: " + cursor.getDouble(idx_phosphorus) + " mg" +
+                "\nSodium: " + cursor.getDouble(idx_sodium) + " mg" +
+                "\nPotassium: " + cursor.getDouble(idx_potassium) + " mg" +
+                "\nFluid: " + cursor.getDouble(idx_fluid) + " ml";
     }
 
     @Override

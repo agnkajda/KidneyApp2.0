@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
-public class TestActivity extends ActionBarActivity {
+public class SearchForMeal extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class TestActivity extends ActionBarActivity {
 
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new TestActivityFragment())
+                    .add(R.id.container, new SearchForMealFragment())
                     .commit();
         }
     }

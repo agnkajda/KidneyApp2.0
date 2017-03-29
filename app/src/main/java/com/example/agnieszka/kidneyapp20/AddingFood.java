@@ -33,7 +33,7 @@ public class AddingFood extends AppCompatActivity {
                 context = getApplicationContext();
                 String foodName = typeToSearch.getText().toString();
 
-                Intent intent = new Intent(context, TestActivity.class)
+                Intent intent = new Intent(context, SearchForMeal.class)
                         .putExtra(Intent.EXTRA_TEXT, foodName);
                 Toast.makeText(context, "co zostalo inserted: " + foodName, Toast.LENGTH_SHORT).show();
                 Log.d("LOG", "Co tu się kryje? " + foodName + " <- To.");

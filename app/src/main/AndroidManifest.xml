@@ -40,7 +40,7 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/ForecastTheme" />
         <activity
-        android:name=".TestActivity"
+        android:name=".SearchForMeal"
         android:parentActivityName=".AddingFood"
         android:theme="@style/ForecastTheme" />
         <activity
@@ -54,7 +54,7 @@
         <activity
             android:name=".ChooseTheMeal"
             android:label="@string/title_activity_choose_the_meal"
-            android:parentActivityName=".TestActivity"
+            android:parentActivityName=".SearchForMeal"
             android:theme="@style/ForecastTheme" />
         <activity
             android:name=".SettingsActivity"

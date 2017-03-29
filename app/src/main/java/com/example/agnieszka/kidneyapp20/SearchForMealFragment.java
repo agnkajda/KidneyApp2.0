@@ -37,12 +37,12 @@ import java.util.StringTokenizer;
 import android.content.Intent;
 
 
-public class TestActivityFragment extends Fragment {
+public class SearchForMealFragment extends Fragment {
 
     public static String gFoodName;
     private ArrayAdapter<String> mForecastAdapter2;
 
-    public TestActivityFragment() {
+    public SearchForMealFragment() {
     }
 
     @Override
